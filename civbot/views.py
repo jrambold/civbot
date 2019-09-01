@@ -21,7 +21,7 @@ def index(request):
 
         name = getSlackId(name)
 
-        message = "Hey " + name + " it's your turn in " + game + ". Turn:" + turn
+        message = "Hey " + name + " it's your turn in " + game + ".\nTurn: " + turn
     except:
         message = info
 
