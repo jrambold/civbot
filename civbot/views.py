@@ -5,6 +5,7 @@ from django.conf import settings
 import os
 import slack
 import json
+from .userlist import getSlackId
 
 def root(request):
     return HttpResponse("Hello World")
@@ -14,9 +15,15 @@ def index(request):
     info = json.loads(request.body)
 
     try:
-        message = "Hey @" + info['value2'] + " it's your turn in " + info['value1'] + ". Turn:" + info['value3']
+        name = info['value2']
+        game = info['value1']
+        turn = info['value3']
+
+        name = getSlackId(name)
+
+        message = "Hey " + name + " it's your turn in " + game + ". Turn:" + turn
     except:
-        message = "Cibot Error"
+        message = info
 
     client = slack.WebClient(token=settings.SLACK_CIVBOT)
     starterbot_id = None
@@ -24,5 +31,4 @@ def index(request):
         channel='#civilization',
         text=message)
     # assert response["ok"]
-    # assert response["message"]["text"] == info
     return JsonResponse(info)
