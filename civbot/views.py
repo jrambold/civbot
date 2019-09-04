@@ -6,7 +6,7 @@ from civbot.models import Game, Player
 import os
 import slack
 import json
-from .notifications import getSlackId
+import civbot.notifications as notes
 
 def root(request):
     return HttpResponse("Hello World")
@@ -18,31 +18,22 @@ def index(request):
     try:
         player = info['value2']
         game = info['value1']
-        turn = info['value3']
+        turn = int(info['value3'])
     except:
-        message = info
-        client = slack.WebClient(token=settings.SLACK_CIVBOT)
-        response = client.chat_postMessage(
-            channel='#civilization',
-            text=message)
+        note.sendSlack(info)
         return JsonResponse(info)
 
-    game_player = Game.objects.filter(name = game, player = player)
-    name = models.CharField(max_length=200)
-    player = models.CharField(max_length=200)
-    player = getSlackId(player)
-    message = "Hey " + player + " it's your turn in " + game + ".\nTurn: " + turn
-
-
-
-
-
+    try:
+        game_player = Game.objects.get(name = game, player = player)
+        if game_player.turn == turn:
+            return JsonResponse(info)
+        game_player.turn = turn
     except:
-        message = info
+        game_player = Game(name = game, player = player, turn = turn)
 
-    client = slack.WebClient(token=settings.SLACK_CIVBOT)
-    response = client.chat_postMessage(
-        channel='#civilization',
-        text=message)
-    # assert response["ok"]
+    game_player.save()
+    game_player.refresh_from_db()
+
+    notes.sendAll(game)
+
     return JsonResponse(info)

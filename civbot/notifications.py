@@ -1,4 +1,5 @@
-def getSlackId(steam_name):
+from civbot.models import Game, Player
+def sendAll(game):
     usercomp = {
         'wraithcube': '<@U33KZ0E95>',
         'cowtastic': '<@U32S2CLTU>',
@@ -10,7 +11,17 @@ def getSlackId(steam_name):
         'davis': '<@U32UUHARF>',
         'hack': '<@UMPH45VPT>',
     }
-    name = steam_name.lower()
+    name = game.player.lower()
     if name in usercomp:
-        return usercomp[name]
-    return steam_name
+        name = usercomp[name]
+
+    message = "Hey " + name + " it's your turn in " + game.game + ".\nTurn: " + str(game.turn)
+    sendSlack(message)
+    return message
+
+def sendSlack(message):
+    client = slack.WebClient(token=settings.SLACK_CIVBOT)
+    response = client.chat_postMessage(
+        channel='#civilization',
+        text=message)
+    return message
