@@ -25,7 +25,7 @@ def index(request):
 
     try:
         game_player = Game.objects.get(name = game, player = player)
-        if game_player.turn == turn:
+        if game_player.turn == turn: #duplicate webhook check
             return JsonResponse(info)
         game_player.turn = turn
     except:
