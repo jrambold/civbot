@@ -1,10 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-from django.conf import settings
 from civbot.models import Game, Player
-import os
-import slack
 import json
 import civbot.notifications as notes
 
@@ -20,7 +17,7 @@ def index(request):
         game = info['value1']
         turn = int(info['value3'])
     except:
-        note.sendSlack(info)
+        notes.sendSlack(info)
         return JsonResponse(info)
 
     try:

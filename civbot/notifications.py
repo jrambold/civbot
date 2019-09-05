@@ -1,4 +1,7 @@
+from django.conf import settings
 from civbot.models import Game, Player
+import slack
+
 def sendAll(game):
     try:
         user = Player.objects.get(steamName__iexact=game.player)
