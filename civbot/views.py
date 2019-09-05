@@ -34,6 +34,6 @@ def index(request):
     game_player.save()
     game_player.refresh_from_db()
 
-    notes.sendAll(game)
+    notes.sendAll(game_player)
 
     return JsonResponse(info)
