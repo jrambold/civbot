@@ -1,7 +1,7 @@
 from civbot.models import Game, Player
 def sendAll(game):
     try:
-        user = player.objects.get(steamName=game.player)
+        user = player.objects.get(steamName__iexact=game.player)
     except:
         message = "It's " + game.player + "'s your turn in' " + game.game + ".\nTurn: " + str(game.turn) + "\nPlayer unknown to CivBot"
         sendSlack(message)
