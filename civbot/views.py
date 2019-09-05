@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
+from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings
 from civbot.models import Game, Player
 import os
@@ -10,6 +11,7 @@ import civbot.notifications as notes
 def root(request):
     return HttpResponse("Hello World")
 
+@csrf_exempt
 def index(request):
     info = json.loads(request.body)
 
