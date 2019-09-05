@@ -1,22 +1,22 @@
 from civbot.models import Game, Player
 def sendAll(game):
-    usercomp = {
-        'wraithcube': '<@U33KZ0E95>',
-        'cowtastic': '<@U32S2CLTU>',
-        'dejavood0o': '<@U32UN4LGM>',
-        'pouchnort': '<@U33Q58S3E>',
-        'mr goopy daddy': '<@U33HC4X0E>',
-        'spadefish': '<@U35MSNBUM>',
-        'kalamari tank': '<@U32U6FD50>',
-        'davis': '<@U32UUHARF>',
-        'hack': '<@UMPH45VPT>',
-    }
-    name = game.player.lower()
-    if name in usercomp:
-        name = usercomp[name]
+    try:
+        user = player.objects.get(steamName=game.player)
+    except:
+        message = "It's " + game.player + "'s your turn in' " + game.game + ".\nTurn: " + str(game.turn) + "\nPlayer unknown to CivBot"
+        sendSlack(message)
 
-    message = "Hey " + name + " it's your turn in " + game.game + ".\nTurn: " + str(game.turn)
-    sendSlack(message)
+    if user.slackNotification:
+        name = '<@' + user.slackId + '>'
+        message = "Hey " + name + " it's your turn in " + game.game + ".\nTurn: " + str(game.turn)
+        sendSlack(message)
+
+    if user.emailNotification:
+        pass
+
+    if user.discordNotification:
+        pass
+
     return message
 
 def sendSlack(message):
