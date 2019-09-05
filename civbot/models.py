@@ -5,6 +5,7 @@ class Game(models.Model):
     name = models.CharField(max_length=200)
     player = models.CharField(max_length=200)
     turn = models.IntegerField()
+    updated = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.name
