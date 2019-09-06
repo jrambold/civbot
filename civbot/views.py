@@ -4,6 +4,7 @@ from django.views.decorators.csrf import csrf_exempt
 from civbot.models import Game, Player
 import json
 import civbot.notifications as notes
+from urllib.parse import parse_qs
 
 def root(request):
     return HttpResponse("Hello World")
@@ -37,4 +38,4 @@ def index(request):
 
 @csrf_exempt
 def command(request):
-    return HttpResponse("Hello World")
+    return JsonResponse(request.body)
