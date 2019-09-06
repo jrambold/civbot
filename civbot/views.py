@@ -39,5 +39,5 @@ def index(request):
 @csrf_exempt
 def command(request):
     things = parse_qs(request.body)
-    notes.sendSlackTest(type(things))
-    return JsonResponse(things, safe=False)
+    notes.sendSlackTest(str(things))
+    return JsonResponse({"hello": type(things)}, safe=False)
