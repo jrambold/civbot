@@ -31,3 +31,10 @@ def sendSlack(message):
         channel='#civilization',
         text=message)
     return message
+
+def sendSlackTest(message):
+    client = slack.WebClient(token=settings.SLACK_CIVBOT)
+    response = client.chat_postMessage(
+        channel='#bot-testing',
+        text=message)
+    return message
