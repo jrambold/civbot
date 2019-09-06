@@ -34,3 +34,7 @@ def index(request):
     notes.sendAll(game_player)
 
     return JsonResponse(info)
+
+@csrf_exempt
+def command(request):
+    return HttpResponse("Hello World")
