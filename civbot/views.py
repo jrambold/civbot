@@ -38,4 +38,5 @@ def index(request):
 
 @csrf_exempt
 def command(request):
-    return JsonResponse(request.body)
+    things = parse_qs(request.body)
+    return JsonResponse(things, safe=False)
