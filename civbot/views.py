@@ -38,6 +38,6 @@ def index(request):
 
 @csrf_exempt
 def command(request):
-    things = json.loads(request.body)
-    notes.sendSlackTest(json.dumps(things))
-    return JsonResponse({"hello": json.dumps(things)}, safe=False)
+    things = parse_qs(request.body)
+    notes.sendSlackTest(str(things))
+    return JsonResponse({"hello": "world"}, safe=False)
