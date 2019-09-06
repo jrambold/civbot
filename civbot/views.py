@@ -42,7 +42,7 @@ def command(request):
 
     response = {}
     response["response_type"] = "ephemeral"
-    response["text"] = "Not a command. User error. User meaning you <@"
+    response["text"] = str(slackCommand)
 
     # text = slackCommand['text'].split(' ')
     #
