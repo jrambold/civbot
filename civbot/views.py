@@ -39,22 +39,27 @@ def index(request):
 @csrf_exempt
 def command(request):
     slackCommand = parse_qs(request.body.decode('utf-8', "ignore"))
-    text = slackCommand['text'].split(' ')
 
     response = {}
+    response["response_type"] = "ephemeral"
+    response["text"] = "Not a command. User error. User meaning you <@" + slackCommand['user_id'] + '>!'
 
-    if text[0] == 'help':
-        response["response_type"] = "ephemeral"
-        response["text"] = "I'm still building it asshole. Hold your horses"
-        response["attachments"] = [
-                                    {"text":"help - How do you think you got here?"},
-                                    {"text":"game [gamename] - Tells you info about the game"}
-                                  ]
-    elif text[0] == 'game':
-        response["response_type"] = "in_channel"
-        response["text"] = "I'm still building it asshole. Hold your horses"
-    else:
-        response["response_type"] = "ephemeral"
-        response["text"] = "Not a command. User error. User meaning you <@" + slackCommand['user_id'] + '>!'
+    # text = slackCommand['text'].split(' ')
+    #
+    # response = {}
+    #
+    # if text[0] == 'help':
+    #     response["response_type"] = "ephemeral"
+    #     response["text"] = "I'm still building it asshole. Hold your horses"
+    #     response["attachments"] = [
+    #                                 {"text":"help - How do you think you got here?"},
+    #                                 {"text":"game [gamename] - Tells you info about the game"}
+    #                               ]
+    # elif text[0] == 'game':
+    #     response["response_type"] = "in_channel"
+    #     response["text"] = "I'm still building it asshole. Hold your horses"
+    # else:
+    #     response["response_type"] = "ephemeral"
+    #     response["text"] = "Not a command. User error. User meaning you <@" + slackCommand['user_id'] + '>!'
 
     return JsonResponse(response)
