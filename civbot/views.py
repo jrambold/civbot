@@ -64,7 +64,7 @@ def command(request):
 
     elif text[0] == 'gamelist':
         game_list = "Current Games: \n"
-        game_query = Game.objects.all().order_by('-updated').distinct('name')
+        game_query = Game.objects.all().order_by('-updated', 'pk').distinct('name')
         # for game in game_query:
         #     game_list = game_list + '1' #game.name + ' Turn: ' + str(game.turn) + ' Last Played on: \n'# + game.updated.strftime("%m/%d/%Y, %H:%M") + '\n'
         response["text"] = str(game_query)
