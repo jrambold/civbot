@@ -65,12 +65,12 @@ def command(request):
     elif text[0] == 'gamelist':
         response = interact.gamelist()
 
-    elif text[0] == 'yell':
-        if len(text) > 1:
-            response = interact.yell(text[1])
-        else:
-            response["response_type"] = "ephemeral"
-            response["text"] = "Must supply a game name"
+    # elif text[0] == 'yell':
+    #     if len(text) > 1:
+    #         response = interact.yell(text[1])
+    #     else:
+    #         response["response_type"] = "ephemeral"
+    #         response["text"] = "Must supply a game name"
 
     else:
         response["response_type"] = "ephemeral"
