@@ -1,4 +1,5 @@
 from civbot.models import Game, Player
+from django.utils import timezone, timedelta
 
 def help():
     response = {}
@@ -8,6 +9,7 @@ def help():
                                 {"text":"help - How do you think you got here?"},
                                 {"text":"gamelist - Lists the current games tracked"},
                                 {"text":"game [gamename] - Tells you info about the game"},
+                                {"text":"yell [gamename] - Yells at whoever's turn it is in the game"},
                               ]
     return response
 
@@ -37,4 +39,35 @@ def gamelist():
         game_list = game_list + game.name + ' - Turn: ' + str(game.turn) + ' - Last Turn: ' + game.updated.strftime("%m/%d/%Y, %I:%M%p") + '\n'
     response["text"] = str(game_list)
     response["response_type"] = "in_channel"
+    return response
+
+def yell(name):
+    response = {}
+    game = Game.objects.filter(name__iexact = name).order_by('-updated').first()
+    if game is not None:
+        try:
+            player = Player.objects.get(steamName__iexact=game.player)
+        except:
+            response["text"] = "No slack info for " + game.player + " found"
+            response["response_type"] = "ephemeral"
+            return response
+
+        if user.slackId is None:
+            name = user.steamName
+        else:
+            name = '<@' + user.slackId + '>'
+
+        response["text"] = "Hey " + name + " hurry up and go in " + game.name
+
+        diff = timezone.now() - game.update
+        hours = diff.days * 24 + diff.seconds // 3600
+
+        text = "\nIt's been your turn since " + game.updated.strftime("%m/%d/%Y, %I:%M%p")
+        text = text + "\nThat was " + hours + "hours ago!"
+        response["attachments"] = [{'text': text}]
+        response["response_type"] = "in_channel"
+    else:
+        response["text"] = "Game not found"
+        response["response_type"] = "ephemeral"
+
     return response

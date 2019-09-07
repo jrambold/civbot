@@ -15,15 +15,14 @@ def root(request):
 #webhook url
 @csrf_exempt
 def index(request):
-    info = json.loads(request.body)
-
     try:
+        info = json.loads(request.body)
         player = info['value2']
         game = info['value1']
         turn = int(info['value3'])
     except:
-        notes.sendSlack(info)
-        return JsonResponse(info)
+        notes.sendSlack('invalid webhook received', '#bot-testing')
+        return HttpResponse("Invalid Request")
 
     try:
         game_player = Game.objects.get(name = game, player = player)
@@ -65,6 +64,13 @@ def command(request):
 
     elif text[0] == 'gamelist':
         response = interact.gamelist()
+
+    elif text[0] == 'yell':
+        if len(text) > 1:
+            response = interact.game(text[1])
+        else:
+            response["response_type"] = "ephemeral"
+            response["text"] = "Must supply a game name"
 
     else:
         response["response_type"] = "ephemeral"
