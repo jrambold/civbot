@@ -41,8 +41,8 @@ def gamelist():
     response["response_type"] = "in_channel"
     return response
 
-# def yell(name):
-#     response = {}
+def yell(name):
+    # response = {}
 #     game = Game.objects.filter(name__iexact = name).order_by('-updated').first()
 #     if game is not None:
 #         try:
@@ -70,4 +70,4 @@ def gamelist():
 #         response["text"] = "Game not found"
 #         response["response_type"] = "ephemeral"
 #
-#     return response
+    return response
