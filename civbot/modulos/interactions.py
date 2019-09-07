@@ -1,5 +1,5 @@
 from civbot.models import Game, Player
-from django.utils import timezone, timedelta
+from django.utils import timezone
 
 def help():
     response = {}
