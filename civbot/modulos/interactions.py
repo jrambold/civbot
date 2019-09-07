@@ -12,6 +12,7 @@ def help():
     return response
 
 def game(name):
+    response = {}
     game_query = Game.objects.filter(name__iexact = name).order_by('updated')
     if game_query.count() > 0:
         response["text"] = "Last Turn Taken: " + game_query.last().updated.strftime("%m/%d/%Y, %H:%M") + "\nTurn: " + str(game_query.last().turn)
@@ -27,6 +28,7 @@ def game(name):
     return response
 
 def gamelist():
+    response = {}
     game_list = "Current Games: \n"
     game_query = Game.objects.order_by('name', '-updated').distinct('name')
     for game in game_query:

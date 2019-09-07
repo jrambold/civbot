@@ -4,8 +4,8 @@ from django.views.decorators.csrf import csrf_exempt
 from civbot.models import Game, Player
 from urllib.parse import parse_qs
 import json
-import civbot.notifications as notes
-import civbot.interaction as interact
+import civbot.modulos.notifications as notes
+import civbot.modulos.interactions as interact
 
 def root(request):
     return HttpResponse("Hello World")
