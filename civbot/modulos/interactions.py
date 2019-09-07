@@ -63,7 +63,7 @@ def yell(name):
         hours = diff.days * 24 + diff.seconds // 3600
 
         text = "\nIt's been your turn since " + game.updated.strftime("%m/%d/%Y, %I:%M%p")
-        text = text + "\nThat was " + hours + "hours ago!"
+        text = text + "\nThat was " + str(hours) + "hours ago!"
         response["attachments"] = [{'text': text}]
         response["response_type"] = "in_channel"
     else:
