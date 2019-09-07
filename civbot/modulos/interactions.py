@@ -45,12 +45,12 @@ def yell(name):
     response = {}
     game = Game.objects.filter(name__iexact = name).order_by('-updated').first()
     if game is not None:
-        # try:
-        #     player = Player.objects.get(steamName__iexact=game.player)
-        # except:
-        #     response["text"] = "No slack info for " + game.player + " found"
-        #     response["response_type"] = "ephemeral"
-        #     return response
+        try:
+            player = Player.objects.get(steamName__iexact=game.player)
+        except:
+            response["text"] = "No slack info for " + game.player + " found"
+            response["response_type"] = "ephemeral"
+            return response
         #
         # if user.slackId is None:
         #     name = user.steamName
