@@ -3,6 +3,7 @@ from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from civbot.models import Game, Player
 from urllib.parse import parse_qs
+from django.utils import timezone
 import json
 import civbot.modulos.notifications as notes
 import civbot.modulos.interactions as interact
@@ -28,6 +29,7 @@ def index(request):
         if game_player.turn == turn: #duplicate webhook check
             return JsonResponse(info)
         game_player.turn = turn
+        game_player.updated = timezone.now()
     except:
         game_player = Game(name = game, player = player, turn = turn)
 
