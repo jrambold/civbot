@@ -54,7 +54,7 @@ def command(request):
     elif text[0] == 'game':
         game_query = Game.objects.filter(name__iexact = text[1]).order_by('updated')
         if game_query.count() > 0:
-            response["text"] = "Last Turn Taken: " + game.updated.strftime("%m/%d/%Y, %H:%M") + "\nTurn: " + str(game_query.last().turn)
+            response["text"] = "Last Turn Taken: " + game_query.last().updated.strftime("%m/%d/%Y, %H:%M") + "\nTurn: " + str(game_query.last().turn)
             response["attachments"] = []
             for game in game_query:
                 response["attachments"].append({"text": game.player})
