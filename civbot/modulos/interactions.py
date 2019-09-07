@@ -45,26 +45,27 @@ def yell(name):
     response = {}
     game = Game.objects.filter(name__iexact = name).order_by('-updated').first()
     if game is not None:
-        try:
-            player = Player.objects.get(steamName__iexact=game.player)
-        except:
-            response["text"] = "No slack info for " + game.player + " found"
-            response["response_type"] = "ephemeral"
-            return response
-
-        if user.slackId is None:
-            name = user.steamName
-        else:
-            name = '<@' + user.slackId + '>'
-
-        response["text"] = "Hey " + name + " hurry up and go in " + game.name
-
-        # diff = timezone.now() - game.update
-        # hours = diff.days * 24 + diff.seconds // 3600
-        hours = 5
-
-        text = "\nIt's been your turn since " + game.updated.strftime("%m/%d/%Y, %I:%M%p")
-        text = text + "\nThat was " + str(hours) + "hours ago!"
+        # try:
+        #     player = Player.objects.get(steamName__iexact=game.player)
+        # except:
+        #     response["text"] = "No slack info for " + game.player + " found"
+        #     response["response_type"] = "ephemeral"
+        #     return response
+        #
+        # if user.slackId is None:
+        #     name = user.steamName
+        # else:
+        #     name = '<@' + user.slackId + '>'
+        #
+        # response["text"] = "Hey " + name + " hurry up and go in " + game.name
+        #
+        # # diff = timezone.now() - game.update
+        # # hours = diff.days * 24 + diff.seconds // 3600
+        # hours = 5
+        #
+        # text = "\nIt's been your turn since " + game.updated.strftime("%m/%d/%Y, %I:%M%p")
+        # text = text + "\nThat was " + str(hours) + "hours ago!"
+        text = "blah"
         response["attachments"] = [{'text': text}]
         response["response_type"] = "in_channel"
     else:
