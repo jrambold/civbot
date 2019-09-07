@@ -67,7 +67,7 @@ def yell(name):
 #         response["attachments"] = [{'text': text}]
 #         response["response_type"] = "in_channel"
 #     else:
-#         response["text"] = "Game not found"
-#         response["response_type"] = "ephemeral"
+    response["text"] = "Game not found"
+    response["response_type"] = "ephemeral"
 #
     return response
