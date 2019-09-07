@@ -67,7 +67,7 @@ def command(request):
         game_query = Game.objects.order_by('updated').distinct('name').all()
         # for game in game_query:
         #     game_list = game_list + '1' #game.name + ' Turn: ' + str(game.turn) + ' Last Played on: \n'# + game.updated.strftime("%m/%d/%Y, %H:%M") + '\n'
-        response["text"] = game_list
+        response["text"] = str(game_query.count())
         response["response_type"] = "in_channel"
     else:
         response["response_type"] = "ephemeral"
