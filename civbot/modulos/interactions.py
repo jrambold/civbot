@@ -51,21 +51,20 @@ def yell(name):
             response["text"] = "No slack info for " + game.player + " found"
             response["response_type"] = "ephemeral"
             return response
-        #
-        # if user.slackId is None:
-        #     name = user.steamName
-        # else:
-        #     name = '<@' + user.slackId + '>'
-        #
-        # response["text"] = "Hey " + name + " hurry up and go in " + game.name
-        #
-        # # diff = timezone.now() - game.update
-        # # hours = diff.days * 24 + diff.seconds // 3600
-        # hours = 5
-        #
-        # text = "\nIt's been your turn since " + game.updated.strftime("%m/%d/%Y, %I:%M%p")
-        # text = text + "\nThat was " + str(hours) + "hours ago!"
-        text = "blah"
+
+        if player.slackId is None:
+            name = player.steamName
+        else:
+            name = '<@' + player.slackId + '>'
+
+        response["text"] = "Hey " + name + " hurry up and go in " + game.name
+
+        # diff = timezone.now() - game.update
+        # hours = diff.days * 24 + diff.seconds // 3600
+        hours = 5
+
+        text = "\nIt's been your turn since " + game.updated.strftime("%m/%d/%Y, %I:%M%p")
+        text = text + "\nThat was " + str(hours) + "hours ago!"
         response["attachments"] = [{'text': text}]
         response["response_type"] = "in_channel"
     else:
