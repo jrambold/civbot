@@ -65,8 +65,8 @@ def command(request):
     elif text[0] == 'gamelist':
         game_list = "Current Games: \n"
         game_query = Game.objects.order_by('updated').distinct('name').all()
-        for game in game_query:
-            game_list = game_list + '1' #game.name + ' Turn: ' + str(game.turn) + ' Last Played on: \n'# + game.updated.strftime("%m/%d/%Y, %H:%M") + '\n'
+        # for game in game_query:
+        #     game_list = game_list + '1' #game.name + ' Turn: ' + str(game.turn) + ' Last Played on: \n'# + game.updated.strftime("%m/%d/%Y, %H:%M") + '\n'
         response["text"] = game_list
         response["response_type"] = "in_channel"
     else:
