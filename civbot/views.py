@@ -4,6 +4,7 @@ from django.views.decorators.csrf import csrf_exempt
 from civbot.models import Game, Player
 from urllib.parse import parse_qs
 from django.utils import timezone
+from django.conf import settings
 import json
 import civbot.modulos.notifications as notes
 import civbot.modulos.interactions as interact
@@ -47,6 +48,9 @@ def command(request):
         slackCommand = parse_qs(request.body.decode('utf-8', "ignore"))
         text = slackCommand['text'][0].split(' ', 1)
     except:
+        return HttpResponse('Invalid Request')
+
+    if slackCommand['token'] != settings.SLACK_TOKEN:
         return HttpResponse('Invalid Request')
 
     if text[0] == 'help':
