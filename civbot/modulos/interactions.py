@@ -58,7 +58,6 @@ def yell(name):
             name = '<@' + player.slackId + '>'
 
         response["text"] = "Hey " + name + " hurry up and go in " + game.name
-        response["text"] = "hi"
 
         diff = timezone.now() - game.updated
         hours = diff.days * 24 + diff.seconds // 3600
