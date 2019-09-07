@@ -17,11 +17,11 @@ def game(name):
     response = {}
     game_query = Game.objects.filter(name__iexact = name).order_by('updated')
     if game_query.count() > 0:
-        response["text"] = "Last Turn Taken: " + game_query.last().updated.strftime("%m/%d/%Y, %I:%M%p") + "\nTurn: " + str(game_query.last().turn)  + "\nPlayers:\n"
+        response["text"] = "Last Turn Taken: " + timezone.localtime(game_query.last().updated).strftime("%m/%d/%Y, %I:%M%p") + "\nTurn: " + str(game_query.last().turn)  + "\nPlayers:\n"
         response["attachments"] = []
         player_list = ""
         for game in game_query:
-            player_list = player_list + "\n" + game.player + " Started Turn: " + game.updated.strftime("%m/%d/%Y, %I:%M%p")
+            player_list = player_list + "\n" + game.player + " Started Turn: " + timezone.localtime(game.updated).strftime("%m/%d/%Y, %I:%M%p")
         player_list = player_list + " - Current Turn"
         response["attachments"] = [{"text": player_list}]
         response["response_type"] = "in_channel"
@@ -36,7 +36,7 @@ def gamelist():
     game_list = "Current Games: \n"
     game_query = Game.objects.order_by('name', '-updated').distinct('name')
     for game in game_query:
-        game_list = game_list + game.name + ' - Turn: ' + str(game.turn) + ' - Last Turn: ' + game.updated.strftime("%m/%d/%Y, %I:%M%p") + '\n'
+        game_list = game_list + game.name + ' - Turn: ' + str(game.turn) + ' - Last Turn: ' + timezone.localtime(game.updated).strftime("%m/%d/%Y, %I:%M%p") + '\n'
     response["text"] = str(game_list)
     response["response_type"] = "in_channel"
     return response
@@ -62,7 +62,7 @@ def yell(name):
         diff = timezone.now() - game.updated
         hours = diff.days * 24 + diff.seconds // 3600
 
-        text = "\nIt's been your turn since " + game.updated.strftime("%m/%d/%Y, %I:%M%p")
+        text = "\nIt's been your turn since " + timezone.localtime(game.updated).strftime("%m/%d/%Y, %I:%M%p")
         text = text + "\nThat was " + str(hours) + " hours ago!"
         response["attachments"] = [{'text': text}]
         response["response_type"] = "in_channel"
