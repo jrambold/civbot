@@ -51,7 +51,7 @@ def command(request):
                                     {"text":"game [gamename] - Tells you info about the game"}
                                   ]
     elif text[0] == 'game':
-        game_query = Game.objects.filter(name = text[1]).order_by('updated')
+        game_query = Game.objects.filter(name__iexact = text[1]).order_by('updated')
         if game_query.count() > 0:
             response["text"] = "Turn: " + str(game_query.last().turn)
             response["attachments"] = []
@@ -61,7 +61,13 @@ def command(request):
         else:
             response["text"] = "Game not found"
         response["response_type"] = "in_channel"
-
+    elif text[0] == 'gamelist':
+        game_query = Game.objects.order_by('-updated').distinct('name')
+        game_list = "Current Games:\n"
+        for game in game_query:
+            game_list = game_list + '\t' + game.name + ' Turn: ' + str(game.turn) + ' Last Played on: ' + game.updated + '\n'
+        response["text"] = gamelist
+        response["response_type"] = "in_channel"
     else:
         response["response_type"] = "ephemeral"
         response["text"] = "Not a command. User error. User meaning you <@" + slackCommand['user_id'][0] + '>!'
