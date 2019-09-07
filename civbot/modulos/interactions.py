@@ -15,11 +15,13 @@ def game(name):
     response = {}
     game_query = Game.objects.filter(name__iexact = name).order_by('updated')
     if game_query.count() > 0:
-        response["text"] = "Last Turn Taken: " + game_query.last().updated.strftime("%m/%d/%Y, %H:%M") + "\nTurn: " + str(game_query.last().turn)
+        response["text"] = "Last Turn Taken: " + game_query.last().updated.strftime("%m/%d/%Y, %H:%M%p") + "\nTurn: " + str(game_query.last().turn)  + "\nPlayers:\n"
         response["attachments"] = []
+        player_list = ""
         for game in game_query:
-            response["attachments"].append({"text": game.player})
-        response["attachments"][-1]['text'] =  'Current Turn: ' + response["attachments"][-1]['text']
+            player_list = player_list + "\n" + game.player + " Started Turn: " + game.updated.strftime("%m/%d/%Y, %H:%M%p")
+        player_list = player_list + " - Current Turn"
+        response["attachments"] = [{"text": player_list}]
         response["response_type"] = "in_channel"
     else:
         response["text"] = "Game not found"
