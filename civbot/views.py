@@ -64,10 +64,10 @@ def command(request):
 
     elif text[0] == 'gamelist':
         game_list = "Current Games: \n"
-        game_query = Game.objects.order_by('updated').distinct('name').all()
+        game_query = Game.objects.order_by('-updated').distinct('name').all()
         # for game in game_query:
         #     game_list = game_list + '1' #game.name + ' Turn: ' + str(game.turn) + ' Last Played on: \n'# + game.updated.strftime("%m/%d/%Y, %H:%M") + '\n'
-        response["text"] = str(game_query.count())
+        response["text"] = str(type(game_query))
         response["response_type"] = "in_channel"
     else:
         response["response_type"] = "ephemeral"
