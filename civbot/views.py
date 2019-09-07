@@ -57,11 +57,11 @@ def command(request):
             response["attachments"] = []
             for game in game_query:
                 response["attachments"].append({"text": game.player})
-            response["attachments"][-1] =  'Current Turn: ' + response["attachments"][-1]
+            response["attachments"][-1]['text'] =  'Current Turn: ' + response["attachments"][-1]['text']
         else:
             response["text"] = "Game not found"
         response["response_type"] = "in_channel"
-        
+
     else:
         response["response_type"] = "ephemeral"
         response["text"] = "Not a command. User error. User meaning you <@" + slackCommand['user_id'][0] + '>!'
