@@ -51,7 +51,11 @@ def command(request):
         response = interact.help()
 
     elif text[0] == 'game':
-        response = interact.game(text[1])
+        if len(text) > 1:
+            response = interact.game(text[1])
+        else:
+            response["response_type"] = "ephemeral"
+            response["text"] = "Must supply a game name"
 
     elif text[0] == 'gamelist':
         response = interact.gamelist()
