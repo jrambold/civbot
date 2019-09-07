@@ -2,13 +2,15 @@ from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from civbot.models import Game, Player
+from urllib.parse import parse_qs
 import json
 import civbot.notifications as notes
-from urllib.parse import parse_qs
+import civbot.interaction as interact
 
 def root(request):
     return HttpResponse("Hello World")
 
+#webhook url
 @csrf_exempt
 def index(request):
     info = json.loads(request.body)
@@ -32,46 +34,30 @@ def index(request):
     game_player.save()
     game_player.refresh_from_db()
 
-    notes.sendAll(game_player)
+    notes.sendPlayerNotices(game_player)
 
     return JsonResponse(info)
 
+#slack slash command url
 @csrf_exempt
 def command(request):
-    response = {}
-    slackCommand = parse_qs(request.body.decode('utf-8', "ignore"))
-
-    text = slackCommand['text'][0].split(' ', 1)
+    try:
+        slackCommand = parse_qs(request.body.decode('utf-8', "ignore"))
+        text = slackCommand['text'][0].split(' ', 1)
+    except:
+        return HttpResponse('Invalid Request')
 
     if text[0] == 'help':
-        response["response_type"] = "ephemeral"
-        response["text"] = "Available Commands"
-        response["attachments"] = [
-                                    {"text":"help - How do you think you got here?"},
-                                    {"text":"gamelist - Lists the current games tracked"},
-                                    {"text":"game [gamename] - Tells you info about the game"},
-                                  ]
+        response = interact.help()
+
     elif text[0] == 'game':
-        game_query = Game.objects.filter(name__iexact = text[1]).order_by('updated')
-        if game_query.count() > 0:
-            response["text"] = "Last Turn Taken: " + game_query.last().updated.strftime("%m/%d/%Y, %H:%M") + "\nTurn: " + str(game_query.last().turn)
-            response["attachments"] = []
-            for game in game_query:
-                response["attachments"].append({"text": game.player})
-            response["attachments"][-1]['text'] =  'Current Turn: ' + response["attachments"][-1]['text']
-        else:
-            response["text"] = "Game not found"
-        response["response_type"] = "in_channel"
+        response = interact.game(text[1])
 
     elif text[0] == 'gamelist':
-        game_list = "Current Games: \n"
-        game_query = Game.objects.order_by('name', '-updated').distinct('name')
-        for game in game_query:
-            game_list = game_list + game.name + ' - Turn: ' + str(game.turn) + ' - Last Turn: ' + game.updated.strftime("%m/%d/%Y, %H:%M") + '\n'
-        response["text"] = str(game_list)
-        response["response_type"] = "in_channel"
+        response = interact.gamelist()
+
     else:
         response["response_type"] = "ephemeral"
-        response["text"] = "Not a command. User error. User meaning you <@" + slackCommand['user_id'][0] + '>!'
+        response["text"] = "Not a command. User error. Meaning <@" + slackCommand['user_id'][0] + '> fucked up!'
 
     return JsonResponse(response)

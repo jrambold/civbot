@@ -2,7 +2,7 @@ from django.conf import settings
 from civbot.models import Game, Player
 import slack
 
-def sendAll(game):
+def sendPlayerNotices(game):
     try:
         user = Player.objects.get(steamName__iexact=game.player)
     except: #User not in database - probably rando or someone needing ot be added
