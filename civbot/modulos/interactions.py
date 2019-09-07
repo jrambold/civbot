@@ -42,7 +42,7 @@ def gamelist():
     return response
 
 def yell(name):
-    # response = {}
+    response = {}
 #     game = Game.objects.filter(name__iexact = name).order_by('-updated').first()
 #     if game is not None:
 #         try:
