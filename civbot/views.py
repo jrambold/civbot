@@ -48,12 +48,13 @@ def command(request):
         response["text"] = "Available Commands"
         response["attachments"] = [
                                     {"text":"help - How do you think you got here?"},
-                                    {"text":"game [gamename] - Tells you info about the game"}
+                                    {"text":"gamelist - Lists the current games tracked"},
+                                    {"text":"game [gamename] - Tells you info about the game"},
                                   ]
     elif text[0] == 'game':
         game_query = Game.objects.filter(name__iexact = text[1]).order_by('updated')
         if game_query.count() > 0:
-            response["text"] = "Turn: " + str(game_query.last().turn)
+            response["text"] = "Last Turn Taken: " + game.updated.strftime("%m/%d/%Y, %H:%M") + "\nTurn: " + str(game_query.last().turn)
             response["attachments"] = []
             for game in game_query:
                 response["attachments"].append({"text": game.player})
@@ -66,7 +67,7 @@ def command(request):
         game_list = "Current Games: \n"
         game_query = Game.objects.order_by('name', '-updated').distinct('name')
         for game in game_query:
-            game_list = game_list + game.name + ' Turn: ' + str(game.turn) + ' Last Played on: \n' + game.updated.strftime("%m/%d/%Y, %H:%M") + '\n'
+            game_list = game_list + game.name + ' - Turn: ' + str(game.turn) + ' - Last Turn: ' + game.updated.strftime("%m/%d/%Y, %H:%M") + '\n'
         response["text"] = str(game_list)
         response["response_type"] = "in_channel"
     else:
