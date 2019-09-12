@@ -20,6 +20,7 @@ def index(request):
         player = info['value2']
         game = info['value1']
         turn = int(info['value3'])
+        notes.sendSlack('player', '#bot-testing')
     except:
         notes.sendSlack('invalid webhook received', '#bot-testing')
         return HttpResponse("Invalid Request")
