@@ -53,6 +53,8 @@ def command(request):
     if slackCommand['token'][0] != settings.SLACK_TOKEN:
         return HttpResponse('Invalid Request')
 
+    response = {}
+
     if text[0] == 'help':
         response = interact.help()
 
