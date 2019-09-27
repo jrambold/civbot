@@ -46,6 +46,7 @@ def command(request):
     try:
         slackCommand = parse_qs(request.body.decode('utf-8', "ignore"))
         text = slackCommand['text'][0].split(' ', 1)
+        text[0] = text[0].lower()
     except:
         return HttpResponse('Invalid Request')
 
@@ -56,7 +57,7 @@ def command(request):
         response = interact.help()
 
     elif text[0] == 'game':
-        if len(text) > 1:
+        if len(text) > 1 and len(text[1]) > 0:
             response = interact.game(text[1])
         else:
             response["response_type"] = "ephemeral"
@@ -66,7 +67,7 @@ def command(request):
         response = interact.gamelist()
 
     elif text[0] == 'yell':
-        if len(text) > 1:
+        if len(text) > 1 and len(text[1]) > 0:
             response = interact.yell(text[1])
         else:
             response["response_type"] = "ephemeral"
