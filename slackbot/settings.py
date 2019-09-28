@@ -27,11 +27,19 @@ SLACK_LEAGUEBOT = os.environ.get('SLACK_LEAGUEBOT')
 SLACK_TOKEN = os.environ.get('SLACK_TOKEN')
 SLACK_TOKEN_LEAGUE = os.environ.get('SLACK_TOKEN_LEAGUE')
 RIOT_KEY = os.environ.get('RIOT_KEY')
+
+# easy export for command line testing
+# export "SECRET_KEY"="hello"
+# export "SLACK_CIVBOT"="hello"
+# export "SLACK_LEAGUEBOT"="hello"
+# export "SLACK_TOKEN"="hello"
+# export "SLACK_TOKEN_LEAGUE"="hello"
+# export "RIOT_KEY"="hello"
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 ALLOWED_HOSTS = ['localhost', 'civ6bot.herokuapp.com']
-
 
 # Application definition
 
@@ -42,10 +50,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'civbot',
-    'leaguebot',
     'requests',
     'dj_database_url',
+    'civbot',
+    'leaguebot',
+    'django_rq'
 ]
 
 MIDDLEWARE = [
@@ -88,6 +97,15 @@ DATABASES = {
        default=os.environ.get('DATABASE_URL')
    )
 }
+
+#Redis Settings
+# RQ_QUEUES = { #for local
+#     "default": {
+#         'HOST': 'localhost',
+#         'PORT': 6379,
+#         'DB': 8,
+#     },
+# }
 
 RQ_QUEUES = {
     "default": {

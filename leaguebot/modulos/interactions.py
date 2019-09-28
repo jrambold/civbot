@@ -21,7 +21,7 @@ def add(name):
         response["response_type"] = "ephemeral"
         return response
     except:
-        continue
+        pass
 
     player = rapi.addPlayer(name)
 

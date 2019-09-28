@@ -7,8 +7,8 @@ class Player(models.Model):
 	profile_icon_id = models.IntegerField()
 	revision_date = models.BigIntegerField()
 	summoner_level = models.IntegerField()
-    loading_solo = models.BooleanField(default=False)
-    loading_flex = models.BooleanField(default=False)
+	loading_solo = models.BooleanField(default=False)
+	loading_flex = models.BooleanField(default=False)
 
 	def __str__(self):
 		return self.name
