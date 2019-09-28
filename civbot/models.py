@@ -9,7 +9,7 @@ class Game(models.Model):
     updated = models.DateTimeField(default=timezone.now())
 
     def __str__(self):
-        return self.name
+        return self.name + ' - ' + self.player
 
 class Player(models.Model):
     name = models.CharField(max_length=200)

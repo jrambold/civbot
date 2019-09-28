@@ -3,11 +3,8 @@ from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from leaguebot.models import Player, FlexMatch, SoloMatch
 from urllib.parse import parse_qs
-from django.utils import timezone
 from django.conf import settings
-import requests
 import json
-import django_rq
 import leaguebot.modulos.notifications as notes
 import leaguebot.modulos.interactions as interact
 
@@ -24,7 +21,7 @@ def command(request):
     except:
         return HttpResponse('Invalid Request')
 
-    if slackCommand['token'][0] != settings.SLACK_TOKEN:
+    if slackCommand['token'][0] != settings.SLACK_TOKEN_LEAGUE:
         return HttpResponse('Invalid Request')
 
     response = {}
@@ -32,22 +29,12 @@ def command(request):
     if text[0] == 'help':
         response = interact.help()
 
-    elif text[0] == 'game':
+    elif text[0] == 'add':
         if len(text) > 1 and len(text[1]) > 0:
             response = interact.game(text[1])
         else:
             response["response_type"] = "ephemeral"
-            response["text"] = "Must supply a game name"
-
-    elif text[0] == 'gamelist':
-        response = interact.gamelist()
-
-    elif text[0] == 'yell':
-        if len(text) > 1 and len(text[1]) > 0:
-            response = interact.yell(text[1])
-        else:
-            response["response_type"] = "ephemeral"
-            response["text"] = "Must supply a game name"
+            response["text"] = "Must supply a username"
 
     else:
         response["response_type"] = "ephemeral"

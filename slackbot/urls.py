@@ -19,6 +19,7 @@ from civbot.views import root
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('django-rq/', include('django_rq.urls')),
     path('civbot/', include('civbot.urls')),
     path('leaguebot/', include('leaguebot.urls')),
     path('', root, name='root'),

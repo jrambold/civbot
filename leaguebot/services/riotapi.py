@@ -1,4 +1,6 @@
 from django.conf import settings
+from leaguebot.models import Player, FlexMatch, SoloMatch
+import requests
 
 def headers():
 	return { 'X-Riot-Token': settings.RIOT_KEY }
@@ -18,6 +20,13 @@ def addPlayer(player_name):
     return player
 
 def populate_solo(player):
+	if player.loading_solo == True:
+		return -1
+
+	aId = player.account_id
+	player.loading_solo = True
+	player.save()
+
 	count = 0
 
 	more_matches = True
@@ -29,7 +38,7 @@ def populate_solo(player):
 		most_recent = 0
 
 	while more_matches:
-		r = requests.get(f"https://na1.api.riotgames.com/lol/match/v4/matchlists/by-account/{player.account_id}?queue=420&season=13&beginIndex={index}", headers=headers()).json()
+		r = requests.get(f"https://na1.api.riotgames.com/lol/match/v4/matchlists/by-account/{aId}?queue=420&season=13&beginIndex={index}", headers=headers()).json()
 		if len(r['matches']) == 0:
 			more_matches = False
 		for match in r['matches']:
@@ -51,7 +60,7 @@ def populate_solo(player):
 				participantID = 0
 
 				for participant in details['participantIdentities']:
-					if (participant['player']['accountId'] == player.account_id):
+					if (participant['player']['accountId'] == aId):
 						participantID = participant['participantId']
 
 				win = details['participants'][participantID-1]['stats']['win']
@@ -101,9 +110,20 @@ def populate_solo(player):
 			else:
 				more_matches = False
 		index += 100
+
+	player.refresh_from_db()
+	player.loading_solo = False
+	player.save()
 	return count
 
 def populate_flex(player):
+	if player.loading_flex == True:
+		return -1
+
+	aId = player.account_id
+	player.loading_flex = True
+	player.save()
+
 	count = 0
 	more_matches = True
 	index = 0
@@ -114,7 +134,7 @@ def populate_flex(player):
 		most_recent = 0
 
 	while more_matches:
-		r = requests.get(f"https://na1.api.riotgames.com/lol/match/v4/matchlists/by-account/{player.account_id}?queue=440&season=13&beginIndex={index}", headers=headers()).json()
+		r = requests.get(f"https://na1.api.riotgames.com/lol/match/v4/matchlists/by-account/{aId}?queue=440&season=13&beginIndex={index}", headers=headers()).json()
 		if len(r['matches']) == 0:
 			more_matches = False
 		for match in r['matches']:
@@ -136,7 +156,7 @@ def populate_flex(player):
 				participantID = 0
 
 				for participant in details['participantIdentities']:
-					if (participant['player']['accountId'] == player.account_id):
+					if (participant['player']['accountId'] == aId):
 						participantID = participant['participantId']
 
 				win = details['participants'][participantID-1]['stats']['win']
@@ -186,4 +206,8 @@ def populate_flex(player):
 			else:
 				more_matches = False
 		index += 100
+
+	player.refresh_from_db()
+	player.loading_flex = False
+	player.save()
 	return count

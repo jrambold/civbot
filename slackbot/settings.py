@@ -25,6 +25,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 SLACK_CIVBOT = os.environ.get('SLACK_CIVBOT')
 SLACK_LEAGUEBOT = os.environ.get('SLACK_LEAGUEBOT')
 SLACK_TOKEN = os.environ.get('SLACK_TOKEN')
+SLACK_TOKEN_LEAGUE = os.environ.get('SLACK_TOKEN_LEAGUE')
 RIOT_KEY = os.environ.get('RIOT_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -43,6 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'civbot',
     'leaguebot',
+    'requests',
     'dj_database_url',
 ]
 
@@ -87,6 +89,20 @@ DATABASES = {
    )
 }
 
+RQ_QUEUES = {
+    "default": {
+        'URL': os.getenv('REDISTOGO_URL', 'redis://localhost:6379/0'), # If you're on Heroku
+        'DEFAULT_TIMEOUT': 2000,
+    },
+    'high': {
+        'URL': os.getenv('REDISTOGO_URL', 'redis://localhost:6379/0'), # If you're on Heroku
+        'DEFAULT_TIMEOUT': 2000,
+    },
+    'low': {
+        'URL': os.getenv('REDISTOGO_URL', 'redis://localhost:6379/0'), # If you're on Heroku
+        'DEFAULT_TIMEOUT': 2000,
+    }
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
