@@ -22,6 +22,7 @@ def command(request):
         return HttpResponse('Invalid Request')
 
     if slackCommand['token'][0] != settings.SLACK_TOKEN_LEAGUE:
+        return HttpResponse(slackCommand['token'][0])
         return HttpResponse('Invalid Request')
 
     response = {}
