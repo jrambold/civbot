@@ -7,6 +7,7 @@ def headers():
 
 def addPlayer(name):
 	r = requests.get(f"https://na1.api.riotgames.com/lol/summoner/v4/summoners/by-name/{name}", headers=headers()).json()
+	return r
 
 	# player = Player(riot_id = r['id'],
 	# 				account_id = r['accountId'],
