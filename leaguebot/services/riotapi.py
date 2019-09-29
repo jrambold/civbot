@@ -68,7 +68,7 @@ def populate_solo(player):
 					if (participant['player']['accountId'] == aId):
 						participantID = participant['participantId']
 
-				win = details['participants'][participantID-1]['stats']['win']
+				win = details['participants'][participantID]['stats']['win']
 
 				if participantID > 5:
 					i = 5
@@ -81,7 +81,7 @@ def populate_solo(player):
 				adc = 0
 				sup = 0
 
-				for j in range(5):
+				for j in range(1,6):
 					p_role = details['participants'][j+i]['timeline']['role']
 					p_lane = details['participants'][j+i]['timeline']['lane']
 					if p_role == 'SOLO' and p_lane == 'TOP':
@@ -164,7 +164,7 @@ def populate_flex(player):
 					if (participant['player']['accountId'] == aId):
 						participantID = participant['participantId']
 
-				win = details['participants'][participantID-1]['stats']['win']
+				win = details['participants'][participantID]['stats']['win']
 
 				if participantID > 5:
 					i = 5
@@ -177,7 +177,7 @@ def populate_flex(player):
 				adc = 0
 				sup = 0
 
-				for j in range(5):
+				for j in range(1,6):
 					p_role = details['participants'][j+i]['timeline']['role']
 					p_lane = details['participants'][j+i]['timeline']['lane']
 					if p_role == 'SOLO' and p_lane == 'TOP':

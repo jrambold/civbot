@@ -23,11 +23,11 @@ class SoloMatch(models.Model):
 	lane = models.CharField(max_length=200)
 	game_version = models.CharField(max_length=200)
 	win = models.BooleanField()
-	top = models.BigIntegerField(default=0)
-	mid = models.BigIntegerField(default=0)
-	jun = models.BigIntegerField(default=0)
-	adc = models.BigIntegerField(default=0)
-	sup = models.BigIntegerField(default=0)
+	top = models.CharField(max_length=200, default='0')
+	mid = models.CharField(max_length=200, default='0')
+	jun = models.CharField(max_length=200, default='0')
+	adc = models.CharField(max_length=200, default='0')
+	sup = models.CharField(max_length=200, default='0')
 
 	def __str__(self):
 		return f"{self.player} {self.gameId}"
@@ -42,11 +42,11 @@ class FlexMatch(models.Model):
 	lane = models.CharField(max_length=200)
 	game_version = models.CharField(max_length=200)
 	win = models.BooleanField()
-	top = models.BigIntegerField(default=0)
-	mid = models.BigIntegerField(default=0)
-	jun = models.BigIntegerField(default=0)
-	adc = models.BigIntegerField(default=0)
-	sup = models.BigIntegerField(default=0)
+	top = models.CharField(max_length=200, default='0')
+	mid = models.CharField(max_length=200, default='0')
+	jun = models.CharField(max_length=200, default='0')
+	adc = models.CharField(max_length=200, default='0')
+	sup = models.CharField(max_length=200, default='0')
 
 	def __str__(self):
 		return f"{self.player} {self.gameId}"
