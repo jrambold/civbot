@@ -28,7 +28,11 @@ def add(name):
     # django_rq.enqueue(rapi.populate_solo, player)
     # django_rq.enqueue(rapi.populate_flex, player)
 
-    response["text"] = "Player Added. Populating Games"
-    response["response_type"] = "ephemeral"
+    if player is None:
+        response["text"] = "Invalid Riot Response"
+        response["response_type"] = "ephemeral"
+    else:
+        response["text"] = "Player Added. Populating Games"
+        response["response_type"] = "ephemeral"
 
     return response
