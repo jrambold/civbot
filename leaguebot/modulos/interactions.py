@@ -25,8 +25,8 @@ def add(name):
 
     player = rapi.addPlayer(name)
 
-    django_rq.enqueue(rapi.populate_solo, player)
-    django_rq.enqueue(rapi.populate_flex, player)
+    # django_rq.enqueue(rapi.populate_solo, player)
+    # django_rq.enqueue(rapi.populate_flex, player)
 
     response["text"] = "Player Added. Populating Games"
     response["response_type"] = "ephemeral"
