@@ -69,14 +69,11 @@ def stats(name):
         response["response_type"] = "ephemeral"
         return response
 
-    response["text"] = "Test Spot 1"
+    rank = player.rank
+    
     response["response_type"] = "ephemeral"
-    return response
-
-    # rank = player.rank
-    #
     # response["response_type"] = "in_channel"
-    # response["text"] = player.name + '\'s stats:'
+    response["text"] = player.name + '\'s stats:'
     # response["attachments"] = [
     #                             {"text":
     #                                 "Solo Queue: " + rank.solo_tier + ' ' + rank.solo_rank + ' ' + rank.solo_lp + 'lp\n'
