@@ -52,16 +52,16 @@ def command(request):
     elif text[0] == 'solo':
         response = interact.soloRanks()
 
-    elif text[0] == 'flexLadder':
+    elif text[0] == 'flexladder':
         response = interact.flexRanks()
 
     elif text[0] == 'tftLadder':
         response = interact.tftRanks()
 
-    elif text[0] == 'worstSoloChamps':
+    elif text[0] == 'worstsolochamps':
         response = interact.worstSoloChamps()
 
-    elif text[0] == 'worstFlexChamps':
+    elif text[0] == 'worstflexchamps':
         response = interact.worstSoloChamps()
 
     else:
