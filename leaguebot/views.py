@@ -43,6 +43,9 @@ def command(request):
             response["text"] = "Must supply a username"
 
     elif text[0] == 'stats':
+        response["text"] = "Test Spot 0"
+        response["response_type"] = "ephemeral"
+        return response
         if len(text) > 1 and len(text[1]) > 0:
             response = interact.stats(text[1])
         else:
