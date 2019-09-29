@@ -31,7 +31,7 @@ def command(request):
 
     elif text[0] == 'add':
         if len(text) > 1 and len(text[1]) > 0:
-            response = interact.game(text[1])
+            response = interact.add(text[1])
         else:
             response["response_type"] = "ephemeral"
             response["text"] = "Must supply a username"
