@@ -49,6 +49,21 @@ def command(request):
             response["response_type"] = "ephemeral"
             response["text"] = "Must supply a username"
 
+    if text[0] == 'solo':
+        response = interact.soloRanks()
+
+    if text[0] == 'flexLadder':
+        response = interact.flexRanks()
+
+    if text[0] == 'tftLadder':
+        response = interact.tftRanks()
+
+    if text[0] == 'worstSoloChamps':
+        response = interact.worstSoloChamps()
+
+    if text[0] == 'worstFlexChamps':
+        response = interact.worstSoloChamps()
+
     else:
         response["response_type"] = "ephemeral"
         response["text"] = "Not a command. User error. Meaning <@" + slackCommand['user_id'][0] + '> fucked up!'
