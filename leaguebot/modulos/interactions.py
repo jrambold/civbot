@@ -79,13 +79,13 @@ def stats(name):
                                     "Solo Queue: " + rank.solo_tier + ' ' + rank.solo_rank + ' ' + str(rank.solo_lp) + 'lp\n'
                                     + '\t' + str(rank.solo_wins) + ' wins ' + str(rank.solo_losses) + ' losses ' + str(round(rank.solo_wins/rank.solo_losses,1)) + '%'
                                 },
-    #                             {"text":
-    #                                 "Flex Queue: " + rank.flex_tier + ' ' + rank.flex_rank + ' ' + player.rank.flex_lp + 'lp\n'
-    #                                 + '\t' + rank.flex_wins + ' wins ' + rank.flex_losses + ' losses ' + round(rank.flex_wins/rank.flex_losses,1) + '%'
-    #                             },
-    #                             {"text":
-    #                                 "TFT: " + rank.tft_tier + ' ' + rank.tft_rank + ' ' + rank.tft_lp + 'lp\n'
-    #                                 + '\t' + rank.tft_wins + ' wins ' + rank.tft_losses + ' losses ' + round(rank.tft_wins/rank.tft_losses,1) + '%'
-    #                             },
+                                {"text":
+                                    "Flex Queue: " + rank.flex_tier + ' ' + rank.flex_rank + ' ' + str(player.rank.flex_lp) + 'lp\n'
+                                    + '\t' + str(rank.flex_wins) + ' wins ' + str(rank.flex_losses) + ' losses ' + str(round(rank.flex_wins/rank.flex_losses,1)) + '%'
+                                },
+                                {"text":
+                                    "TFT: " + rank.tft_tier + ' ' + rank.tft_rank + ' ' + str(rank.tft_lp) + 'lp\n'
+                                    + '\t' + str(rank.tft_wins) + ' wins ' + str(rank.tft_losses) + ' losses ' + str(round(rank.tft_wins/rank.tft_losses,1)) + '%'
+                                },
                               ]
     return response
