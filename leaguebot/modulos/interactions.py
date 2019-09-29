@@ -76,7 +76,7 @@ def stats(name):
     response["text"] = player.name + '\'s stats:'
     response["attachments"] = [
                                 {"text":
-                                    "Solo Queue: " + rank.solo_tier + ' ' + rank.solo_rank + ' ' + rank.solo_lp + 'lp\n'
+                                    "Solo Queue: " + rank.solo_tier + ' ' + rank.solo_rank + ' ' + str(rank.solo_lp) + 'lp\n'
                                     # + '\t' + rank.solo_wins + ' wins ' + rank.solo_losses + ' losses ' + round(rank.solo_wins/rank.solo_losses,1) + '%'
                                 },
     #                             {"text":
