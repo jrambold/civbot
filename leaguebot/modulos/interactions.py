@@ -1,4 +1,4 @@
-from civbot.models import Game, Player
+from leaguebot.models import Player, Rank, SoloMatch, FlexMatch
 from django.utils import timezone
 import django_rq
 import leaguebot.services.riotapi as rapi

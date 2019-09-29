@@ -1,7 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-from leaguebot.models import Player, FlexMatch, SoloMatch
 from urllib.parse import parse_qs
 from django.conf import settings
 import json
