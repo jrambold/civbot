@@ -49,19 +49,19 @@ def command(request):
             response["response_type"] = "ephemeral"
             response["text"] = "Must supply a username"
 
-    if text[0] == 'solo':
+    elif text[0] == 'solo':
         response = interact.soloRanks()
 
-    if text[0] == 'flexLadder':
+    elif text[0] == 'flexLadder':
         response = interact.flexRanks()
 
-    if text[0] == 'tftLadder':
+    elif text[0] == 'tftLadder':
         response = interact.tftRanks()
 
-    if text[0] == 'worstSoloChamps':
+    elif text[0] == 'worstSoloChamps':
         response = interact.worstSoloChamps()
 
-    if text[0] == 'worstFlexChamps':
+    elif text[0] == 'worstFlexChamps':
         response = interact.worstSoloChamps()
 
     else:
