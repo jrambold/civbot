@@ -77,7 +77,7 @@ def stats(name):
     response["attachments"] = [
                                 {"text":
                                     "Solo Queue: " + rank.solo_tier + ' ' + rank.solo_rank + ' ' + str(rank.solo_lp) + 'lp\n'
-                                    # + '\t' + rank.solo_wins + ' wins ' + rank.solo_losses + ' losses ' + round(rank.solo_wins/rank.solo_losses,1) + '%'
+                                    + '\t' + str(rank.solo_wins) + ' wins ' + str(rank.solo_losses) + ' losses ' + str(round(rank.solo_wins/rank.solo_losses,1)) + '%'
                                 },
     #                             {"text":
     #                                 "Flex Queue: " + rank.flex_tier + ' ' + rank.flex_rank + ' ' + player.rank.flex_lp + 'lp\n'
