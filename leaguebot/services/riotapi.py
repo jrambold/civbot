@@ -8,15 +8,15 @@ def headers():
 def addPlayer(name):
 	r = requests.get(f"https://na1.api.riotgames.com/lol/summoner/v4/summoners/by-name/{name}", headers=headers()).json()
 
-	player = Player(riot_id = r['id'],
-					account_id = r['accountId'],
-					name = r['name'],
-					profile_icon_id = r['profileIconId'],
-					revision_date = r['revisionDate'],
-					summoner_level = r['summonerLevel']
-					)
-	player.save()
-	player.refresh_from_db()
+	# player = Player(riot_id = r['id'],
+	# 				account_id = r['accountId'],
+	# 				name = r['name'],
+	# 				profile_icon_id = r['profileIconId'],
+	# 				revision_date = r['revisionDate'],
+	# 				summoner_level = r['summonerLevel']
+	# 				)
+	# player.save()
+	# player.refresh_from_db()
 	return player
 
 def populate_solo(player):
