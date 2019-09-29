@@ -5,7 +5,7 @@ import requests
 def headers():
 	return { 'X-Riot-Token': settings.RIOT_KEY }
 
-def addPlayer(player_name):
+def addPlayer(name):
     r = requests.get(f"https://na1.api.riotgames.com/lol/summoner/v3/summoners/by-name/{name}", headers=headers()).json()
 
     player = Player(riot_id = r['id'],
