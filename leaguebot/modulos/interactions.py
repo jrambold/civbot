@@ -25,8 +25,8 @@ def add(name):
 
     player = rapi.addPlayer(name)
 
-    # django_rq.enqueue(rapi.populate_solo, player)
-    # django_rq.enqueue(rapi.populate_flex, player)
+    django_rq.enqueue(rapi.populate_solo, player)
+    django_rq.enqueue(rapi.populate_flex, player)
 
     if player is None:
         response["text"] = "Invalid Riot Response"
