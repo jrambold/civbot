@@ -36,10 +36,7 @@ def addPlayer(name):
 
 def getRanks(player):
 	r = requests.get(f"https://na1.api.riotgames.com/lol/league/v4/entries/by-summoner/{player.riot_id}", headers=headers()).json()
-	try:
-		rank = player.rank
-	except:
-		rank = Rank(player=player)
+	rank = player.rank
 
 	for queue in r:
 		if queue['queueType'] == "RANKED_TFT":

@@ -66,6 +66,10 @@ def stats(name):
         response["response_type"] = "ephemeral"
         return response
 
+    response["text"] = "Test Spot 1"
+    response["response_type"] = "ephemeral"
+    return response
+
     rank = player.rank
 
     response["response_type"] = "in_channel"
