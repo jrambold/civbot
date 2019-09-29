@@ -9,7 +9,7 @@ def help():
     response["text"] = "Available Commands"
     response["attachments"] = [
                                 {"text":"help - How do you think you got here?"},
-                                {"text":"add - playername"},
+                                {"text":"add [playername] - add player and game history to bot"},
                               ]
     return response
 
