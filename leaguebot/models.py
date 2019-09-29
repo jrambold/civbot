@@ -1,8 +1,8 @@
 from django.db import models
 
 class Player(models.Model):
-	riot_id = models.BigIntegerField()
-	account_id = models.BigIntegerField()
+	riot_id = models.CharField(max_length=200)
+	account_id = models.CharField(max_length=200)
 	name = models.CharField(max_length=200)
 	profile_icon_id = models.IntegerField()
 	revision_date = models.BigIntegerField()
