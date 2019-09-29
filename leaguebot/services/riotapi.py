@@ -1,6 +1,7 @@
 from django.conf import settings
 from leaguebot.models import Player, FlexMatch, SoloMatch
 import requests
+import time
 
 def headers():
 	return { 'X-Riot-Token': settings.RIOT_KEY }
@@ -29,6 +30,7 @@ def populate_solo(player):
 		return -1
 
 	aId = player.account_id
+	player.refresh_from_db()
 	player.loading_solo = True
 	player.save()
 
@@ -68,7 +70,7 @@ def populate_solo(player):
 					if (participant['player']['accountId'] == aId):
 						participantID = participant['participantId']
 
-				win = details['participants'][participantID]['stats']['win']
+				win = details['participants'][participantID-1]['stats']['win']
 
 				if participantID > 5:
 					i = 5
@@ -81,7 +83,7 @@ def populate_solo(player):
 				adc = 0
 				sup = 0
 
-				for j in range(1,6):
+				for j in range(5):
 					p_role = details['participants'][j+i]['timeline']['role']
 					p_lane = details['participants'][j+i]['timeline']['lane']
 					if p_role == 'SOLO' and p_lane == 'TOP':
@@ -116,7 +118,7 @@ def populate_solo(player):
 				more_matches = False
 		index += 100
 
-	player.refresh_from_db()
+	player = player.refresh_from_db()
 	player.loading_solo = False
 	player.save()
 	return count
@@ -126,6 +128,7 @@ def populate_flex(player):
 		return -1
 
 	aId = player.account_id
+	player.refresh_from_db()
 	player.loading_flex = True
 	player.save()
 
@@ -164,7 +167,7 @@ def populate_flex(player):
 					if (participant['player']['accountId'] == aId):
 						participantID = participant['participantId']
 
-				win = details['participants'][participantID]['stats']['win']
+				win = details['participants'][participantID-1]['stats']['win']
 
 				if participantID > 5:
 					i = 5
@@ -177,7 +180,7 @@ def populate_flex(player):
 				adc = 0
 				sup = 0
 
-				for j in range(1,6):
+				for j in range(5):
 					p_role = details['participants'][j+i]['timeline']['role']
 					p_lane = details['participants'][j+i]['timeline']['lane']
 					if p_role == 'SOLO' and p_lane == 'TOP':
