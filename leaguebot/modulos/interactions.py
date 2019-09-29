@@ -70,15 +70,15 @@ def stats(name):
         return response
 
     rank = player.rank
-    
+
     response["response_type"] = "ephemeral"
     # response["response_type"] = "in_channel"
     response["text"] = player.name + '\'s stats:'
-    # response["attachments"] = [
-    #                             {"text":
-    #                                 "Solo Queue: " + rank.solo_tier + ' ' + rank.solo_rank + ' ' + rank.solo_lp + 'lp\n'
-    #                                 + '\t' + rank.solo_wins + ' wins ' + rank.solo_losses + ' losses ' + round(rank.solo_wins/rank.solo_losses,1) + '%'
-    #                             },
+    response["attachments"] = [
+                                {"text":
+                                    "Solo Queue: " + rank.solo_tier + ' ' + rank.solo_rank + ' ' + rank.solo_lp + 'lp\n'
+                                    # + '\t' + rank.solo_wins + ' wins ' + rank.solo_losses + ' losses ' + round(rank.solo_wins/rank.solo_losses,1) + '%'
+                                },
     #                             {"text":
     #                                 "Flex Queue: " + rank.flex_tier + ' ' + rank.flex_rank + ' ' + player.rank.flex_lp + 'lp\n'
     #                                 + '\t' + rank.flex_wins + ' wins ' + rank.flex_losses + ' losses ' + round(rank.flex_wins/rank.flex_losses,1) + '%'
@@ -87,5 +87,5 @@ def stats(name):
     #                                 "TFT: " + rank.tft_tier + ' ' + rank.tft_rank + ' ' + rank.tft_lp + 'lp\n'
     #                                 + '\t' + rank.tft_wins + ' wins ' + rank.tft_losses + ' losses ' + round(rank.tft_wins/rank.tft_losses,1) + '%'
     #                             },
-    #                           ]
+                              ]
     return response
