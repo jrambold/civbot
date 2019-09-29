@@ -36,6 +36,20 @@ def command(request):
             response["response_type"] = "ephemeral"
             response["text"] = "Must supply a username"
 
+    elif text[0] == 'refresh':
+        if len(text) > 1 and len(text[1]) > 0:
+            response = interact.refresh(text[1])
+        else:
+            response["response_type"] = "ephemeral"
+            response["text"] = "Must supply a username"
+
+    elif text[0] == 'stats':
+        if len(text) > 1 and len(text[1]) > 0:
+            response = interact.stats(text[1])
+        else:
+            response["response_type"] = "ephemeral"
+            response["text"] = "Must supply a username"
+
     else:
         response["response_type"] = "ephemeral"
         response["text"] = "Not a command. User error. Meaning <@" + slackCommand['user_id'][0] + '> fucked up!'
