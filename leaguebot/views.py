@@ -62,7 +62,7 @@ def command(request):
         response = interact.worstSoloChamps()
 
     elif text[0] == 'worstflexchamps':
-        response = interact.worstSoloChamps()
+        response = interact.worstFlexChamps()
 
     else:
         response["response_type"] = "ephemeral"
