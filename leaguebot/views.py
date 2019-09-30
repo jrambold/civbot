@@ -70,6 +70,7 @@ def command(request):
 
     response = {}
 
+    #all text matches here need to be lowercase for case insensitivity in commands
     if text[0] == 'help':
         response = interact.help()
 
@@ -87,7 +88,7 @@ def command(request):
             response["response_type"] = "ephemeral"
             response["text"] = "Must supply a username or refreshAll for everyone"
 
-    elif text[0] == 'refreshAll':
+    elif text[0] == 'refreshall':
         response = interact.refreshAll()
 
     elif text[0] == 'stats':
