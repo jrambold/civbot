@@ -103,7 +103,7 @@ def tftRanks():
 
 def worstSoloChamps():
     response = {}
-    response["attachments"] = []
+    # response["attachments"] = []
 
     players = Player.objects.all()
 
@@ -112,8 +112,9 @@ def worstSoloChamps():
         champion = 0
         result = 2
         for champ in champs:
-            matches = player.solomatch_set.filter(champ[0])
-            total = matches.count()
+            type = type(champ[0])
+            # matches = player.solomatch_set.filter(champ[0])
+            # total = matches.count()
             # if total >= 5:
             #     rate = (matches.filter(win=True).count())/total
             #     if rate < result:
@@ -123,7 +124,7 @@ def worstSoloChamps():
 
     response["response_type"] = "in_channel"
     response["response_type"] = "ephemeral"
-    response["text"] = 'Worst Champs (min 5):'
+    response["text"] = str(type)
 
     return response
 
