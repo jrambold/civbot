@@ -122,14 +122,14 @@ def command(request):
             response["response_type"] = "ephemeral"
             response["text"] = "Must supply a username"
 
-    elif text[0] == 'soloChamps':
+    elif text[0] == 'solochamps':
         if len(text) > 1 and len(text[1]) > 0:
             response = interact.soloChamps(text[1])
         else:
             response["response_type"] = "ephemeral"
             response["text"] = "Must supply a username"
 
-    elif text[0] == 'flexChamps':
+    elif text[0] == 'flexchamps':
         if len(text) > 1 and len(text[1]) > 0:
             response = interact.flexChamps(text[1])
         else:
