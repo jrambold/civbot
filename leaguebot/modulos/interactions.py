@@ -131,10 +131,10 @@ def leaderboard():
     response["text"] = 'Leaderboard'
     response["attachments"] = []
 
-    players = Rank.objects.filter(Q(solo_wins>0)|Q(solo_losses>0)).annotate(percent= ExpressionWrapper(100.0 * F('solo_wins') / (F('solo_wins') + F('solo_losses')), output_field=FloatField()) ).order_by('-percent')
-    solo = '*Solo Queue Heroes*'
-    for rank in players:
-        solo = solo + '\n\t' + rank.player.name + ' ' +  str(round(rank.percent,1)) + '% ' + str(rank.solo_wins) + ' wins ' + str(rank.solo_losses) + ' losses (' + rank.solo_tier + ' ' + rank.solo_rank + ')'
+    # players = Rank.objects.filter(Q(solo_wins>0)|Q(solo_losses>0)).annotate(percent= ExpressionWrapper(100.0 * F('solo_wins') / (F('solo_wins') + F('solo_losses')), output_field=FloatField()) ).order_by('-percent')
+    # solo = '*Solo Queue Heroes*'
+    # for rank in players:
+    #     solo = solo + '\n\t' + rank.player.name + ' ' +  str(round(rank.percent,1)) + '% ' + str(rank.solo_wins) + ' wins ' + str(rank.solo_losses) + ' losses (' + rank.solo_tier + ' ' + rank.solo_rank + ')'
 
     players = Rank.objects.filter(Q(flex_wins>0)|Q(flex_losses>0)).annotate(percent= ExpressionWrapper(100.0 * F('flex_wins') / (F('flex_wins') + F('flex_losses')), output_field=FloatField()) ).order_by('-percent')
     flex = '*Flex Teammates*'
