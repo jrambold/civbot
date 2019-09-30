@@ -109,10 +109,10 @@ def worstSoloChamps():
 
     for player in players:
         champs = player.solomatch_set.values_list('champion').distinct()
-        champion = 0
+        champion = ''
         result = 2
         for champ in champs:
-            a=1
+            champion = champion + str(champ)
         #     matches = player.solomatch_set.filter(champ)
         #     total = matches.count()
         #     if total > 5:
@@ -124,7 +124,7 @@ def worstSoloChamps():
 
     response["response_type"] = "in_channel"
     response["response_type"] = "ephemeral"
-    response["text"] = 'Worst Champs (min 5):'
+    response["text"] = champion
 
     return response
 
