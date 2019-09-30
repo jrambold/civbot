@@ -2,7 +2,7 @@ from leaguebot.models import Player, Rank, SoloMatch, FlexMatch, Champion
 from django.utils import timezone
 import django_rq
 import leaguebot.services.riotapi as rapi
-from django.db.models import F, ExpressionWrapper, FloatField
+from django.db.models import Q, F, ExpressionWrapper, FloatField
 
 def help():
     response = {}
@@ -98,10 +98,12 @@ def stats(name):
         solo_percent = 0
     else:
         solo_percent = rank.solo_wins/(rank.solo_wins + rank.solo_losses)
+
     if rank.flex_wins + rank.flex_losses == 0:
         flex_percent = 0
     else:
         flex_percent = rank.flex_wins/(rank.flex_wins + rank.flex_losses)
+
     if rank.tft_wins + rank.tft_losses == 0:
         tft_percent = 0
     else:
@@ -129,29 +131,17 @@ def leaderboard():
     response["text"] = 'Leaderboard'
     response["attachments"] = []
 
-    players = Rank.objects.annotate(percent= Case(
-                                                    When((F('solo_wins') + F('solo_losses'))=0, then=0.0),
-                                                    default=100.0 * F('solo_wins') / (F('solo_wins') + F('solo_losses')),
-                                                    output_field=FloatField()
-                                                    )).order_by('-percent')
+    players = Rank.objects.filter(Q(solo_wins>0)|Q(solo_losses>0)).annotate(percent= ExpressionWrapper(100.0 * F('solo_wins') / (F('solo_wins') + F('solo_losses')), output_field=FloatField()) ).order_by('-percent')
     solo = '*Solo Queue Heroes*'
     for rank in players:
         solo = solo + '\n\t' + rank.player.name + ' ' +  str(round(rank.percent,1)) + '% ' + str(rank.solo_wins) + ' wins ' + str(rank.solo_losses) + ' losses (' + rank.solo_tier + ' ' + rank.solo_rank + ')'
 
-    players = Rank.objects.annotate(percent=  Case(
-                                                    When((F('flex_wins') + F('flex_losses'))=0, then=0.0),
-                                                    default=100.0 * F('flex_wins') / (F('flex_wins') + F('flex_losses')),
-                                                    output_field=FloatField()
-                                                    )).order_by('-percent')
+    players = Rank.objects.filter(Q(flex_wins>0)|Q(flex_losses>0)).annotate(percent= ExpressionWrapper(100.0 * F('flex_wins') / (F('flex_wins') + F('flex_losses')), output_field=FloatField()) ).order_by('-percent')
     flex = '*Flex Teammates*'
     for rank in players:
         flex = flex + '\n\t' + rank.player.name + ' ' + str(round(rank.percent,1)) + '% ' + str(rank.flex_wins) + ' wins ' + str(rank.flex_losses) + ' losses (' + rank.flex_tier + ' ' + rank.flex_rank + ')'
 
-    players = Rank.objects.annotate(percent=  Case(
-                                                    When((F('tft_wins') + F('tft_losses'))=0, then=0.0),
-                                                    default=100.0 * F('tft_wins') / (F('tft_wins') + F('tft_losses')),
-                                                    output_field=FloatField()
-                                                    )).order_by('-percent')
+    players = Rank.objects.filter(Q(tft_wins>0)|Q(tft_losses>0)).annotate(percent= ExpressionWrapper(100.0 * F('tft_wins') / (F('tft_wins') + F('tft_losses')), output_field=FloatField()) ).order_by('-percent')
     tft = '*TFT Strategists*'
     for rank in players:
         tft = tft + '\n\t' + rank.player.name + ' ' +  str(round(rank.percent,1)) + '% '+ str(rank.tft_wins) + ' wins ' + str(rank.tft_losses) + ' losses (' + rank.tft_tier + ' ' + rank.tft_rank + ')'
