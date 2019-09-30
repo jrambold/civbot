@@ -76,11 +76,11 @@ def getRanks(player):
 	return player
 
 def populate_solo(player):
+	player.refresh_from_db()
 	if player.loading_solo == True:
 		return -1
 
 	aId = player.account_id
-	player.refresh_from_db()
 	player.loading_solo = True
 	player.save()
 
@@ -168,17 +168,17 @@ def populate_solo(player):
 				more_matches = False
 		index += 100
 
-	player = player.refresh_from_db()
+	player.refresh_from_db()
 	player.loading_solo = False
 	player.save()
 	return count
 
 def populate_flex(player):
+	player.refresh_from_db()
 	if player.loading_flex == True:
 		return -1
 
 	aId = player.account_id
-	player.refresh_from_db()
 	player.loading_flex = True
 	player.save()
 
