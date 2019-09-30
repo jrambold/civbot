@@ -20,7 +20,9 @@ def help():
                     "\n• bestSoloChamps - everyone's lowest winrate soloqueue champs"+
                     "\n• bestFlexChamps - everyone's lowest winrate flexqueue champs")
     individual = ("Individual Stats"+
-                    "\n• stats [playername] - show players rankings")
+                    "\n• stats [playername] - show rankings"+
+                    "\n• soloChamps - solo queue win rates by champion"+
+                    "\n• flexChamps - flex queue win rates by champion"+)
     response["attachments"] = [
                                 {"text":logistics},
                                 {"text":group},
