@@ -17,6 +17,7 @@ def root(request):
 def index(request):
     try:
         info = json.loads(request.body)
+        notes.sendSlack(str(info), '#bot-testing')
         player = info['value2']
         game = info['value1']
         turn = int(info['value3'])
