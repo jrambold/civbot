@@ -123,7 +123,7 @@ def worstSoloChamps():
 
     response["response_type"] = "in_channel"
     response["response_type"] = "ephemeral"
-    response["text"] = champion
+    response["text"] = 'Worst Champs (min 5):'
 
     return response
 
