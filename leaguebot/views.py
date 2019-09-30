@@ -85,7 +85,10 @@ def command(request):
             response = interact.refresh(text[1])
         else:
             response["response_type"] = "ephemeral"
-            response["text"] = "Must supply a username"
+            response["text"] = "Must supply a username or refreshAll for everyone"
+
+    elif text[0] == 'refreshAll':
+        response = interact.refreshAll()
 
     elif text[0] == 'stats':
         if len(text) > 1 and len(text[1]) > 0:

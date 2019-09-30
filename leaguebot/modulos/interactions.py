@@ -7,12 +7,23 @@ from django.db.models import F, ExpressionWrapper, FloatField
 def help():
     response = {}
     response["response_type"] = "ephemeral"
-    response["text"] = "Available Commands"
+    response["text"] = "*Available Commands*"
+    logistics =
+                +"help - How do you think you got here?"
+                +"\n• add [playername] - add player and game history to bot"
+                +"\n• refreshAll - updates all player ranks and games"
+                +"\n• refresh [playername] - update players ranks and games"
+    individual = "Group Stats"
+                +"\n• leaderboard - everyone ranked by win rate"
+                +"\n• worstSoloChamps - everyone's lowest winrate soloqueue champs"
+                +"\n• worstFlexChamps - everyone's lowest winrate flexqueue champs"
+    individual = "Individual Stats"
+                +"\n• stats [playername] - show players rankings"
+                +"\n• stats [playername] - show players rankings"
     response["attachments"] = [
-                                {"text":"help - How do you think you got here?"},
-                                {"text":"add [playername] - add player and game history to bot"},
-                                {"text":"refresh [playername] - update players stats and games"},
-                                {"text":"stats [playername] - show players rankings"},
+                                {"text":logistics},
+                                {"text":group},
+                                {"text":individual},
                               ]
     return response
 
@@ -38,6 +49,18 @@ def add(name):
     else:
         response["text"] = "Player Added. Populating Games"
         response["response_type"] = "ephemeral"
+
+    return response
+
+def refreshAll():
+    players = Player.objects.all()
+    for player in players:
+        player = rapi.getRanks(player)
+        django_rq.enqueue(rapi.populate_solo, player)
+        django_rq.enqueue(rapi.populate_flex, player)
+
+    response["text"] = "Ranks Refreshed. Loading Games"
+    response["response_type"] = "ephemeral"
 
     return response
 
