@@ -116,6 +116,12 @@ def command(request):
     elif text[0] == 'worstflexchamps':
         response = interact.worstFlexChamps()
 
+    elif text[0] == 'bestsolochamps':
+        response = interact.bestSoloChamps()
+
+    elif text[0] == 'bestflexchamps':
+        response = interact.bestFlexChamps()
+
     else:
         response["response_type"] = "ephemeral"
         response["text"] = "Not a command. User error. Meaning <@" + slackCommand['user_id'][0] + '> fucked up!'

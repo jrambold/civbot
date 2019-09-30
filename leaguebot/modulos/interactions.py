@@ -16,7 +16,9 @@ def help():
     group = ("Group Stats"+
                     "\n• leaderboard - everyone ranked by win rate"+
                     "\n• worstSoloChamps - everyone's lowest winrate soloqueue champs"+
-                    "\n• worstFlexChamps - everyone's lowest winrate flexqueue champs")
+                    "\n• worstFlexChamps - everyone's lowest winrate flexqueue champs"+
+                    "\n• bestSoloChamps - everyone's lowest winrate soloqueue champs"+
+                    "\n• bestFlexChamps - everyone's lowest winrate flexqueue champs")
     individual = ("Individual Stats"+
                     "\n• stats [playername] - show players rankings")
     response["attachments"] = [
@@ -194,7 +196,7 @@ def worstSoloChamps():
             response["attachments"].append({"text": player.name + ': ' + champ_details.name + ' played ' + str(games) + ' times winrate: ' + str(round(result*100,1)) + '%\nA True ' + title})
 
     response["response_type"] = "in_channel"
-    response["text"] = 'Worst Champs (min 5):'
+    response["text"] = 'Worst Solo Queue Champs (min 5 games):'
 
     return response
 
@@ -228,6 +230,74 @@ def worstFlexChamps():
             response["attachments"].append({"text": player.name + ': ' + champ_details.name + ' played ' + str(games) + ' times winrate: ' + str(round(result*100,1)) + '%\nA True ' + title})
 
     response["response_type"] = "in_channel"
-    response["text"] = 'Worst Champs (min 5):'
+    response["text"] = 'Worst Flex Queue Champs (min 5 games):'
+
+    return response
+
+def bestSoloChamps():
+    response = {}
+    response["attachments"] = []
+
+    players = Player.objects.all()
+
+    for player in players:
+        champs = player.solomatch_set.values_list('champion').distinct()
+        champion = 0
+        result = 0
+        games = 0
+        for champ in champs:
+            matches = player.solomatch_set.filter(champion=champ[0])
+            total = matches.count()
+            if total >= 5:
+                rate = (matches.filter(win=True).count())/total
+                if rate > result:
+                    result = rate
+                    champion = champ[0]
+                    games = total
+        if champion == 0:
+            response["attachments"].append({"text": player.name + ': No champion played 5 times'})
+        else:
+            champ_details = Champion.objects.get(id=champion)
+            title = champ_details.title
+            if title.startswith('the '):
+                title = title.split('the ',1)[1]
+            response["attachments"].append({"text": player.name + ': ' + champ_details.name + ' played ' + str(games) + ' times winrate: ' + str(round(result*100,1)) + '%\nA True ' + title})
+
+    response["response_type"] = "in_channel"
+    response["text"] = 'Best Solo Queue Champs (min 5 games):'
+
+    return response
+
+def bestFlexChamps():
+    response = {}
+    response["attachments"] = []
+
+    players = Player.objects.all()
+
+    for player in players:
+        champs = player.flexmatch_set.values_list('champion').distinct()
+        champion = 0
+        result = 0
+        games = 0
+        for champ in champs:
+            matches = player.flexmatch_set.filter(champion=champ[0])
+            total = matches.count()
+            if total >= 5:
+                rate = (matches.filter(win=True).count())/total
+                if rate > result:
+                    result = rate
+                    champion = champ[0]
+                    games = total
+        if champion == 0:
+            response["attachments"].append({"text": player.name + ': No champion played 5 times'})
+        else:
+            champ_details = Champion.objects.get(id=champion)
+            title = champ_details.title
+            if title.startswith('the '):
+                title = title.split('the ',1)[1]
+            response["attachments"].append({"text": player.name + ': ' + champ_details.name + ' played ' + str(games) + ' times winrate: ' + str(round(result*100,1)) + '%\nA True ' + title})
+
+    response["response_type"] = "in_channel"
+    response["text"] = 'Best Flex Queue Champs (min 5 games):'
 
     return response
