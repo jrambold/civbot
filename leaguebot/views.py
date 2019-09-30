@@ -91,17 +91,10 @@ def command(request):
     elif text[0] == 'refreshall':
         response = interact.refreshAll()
 
-    elif text[0] == 'stats':
-        if len(text) > 1 and len(text[1]) > 0:
-            response = interact.stats(text[1])
-        else:
-            response["response_type"] = "ephemeral"
-            response["text"] = "Must supply a username"
-
     elif text[0] == 'leaderboard':
         response = interact.leaderboard()
 
-    elif text[0] == 'solo':
+    elif text[0] == 'soloranks':
         response = interact.soloRanks()
 
     elif text[0] == 'flexladder':
@@ -121,6 +114,27 @@ def command(request):
 
     elif text[0] == 'bestflexchamps':
         response = interact.bestFlexChamps()
+
+    elif text[0] == 'stats':
+        if len(text) > 1 and len(text[1]) > 0:
+            response = interact.stats(text[1])
+        else:
+            response["response_type"] = "ephemeral"
+            response["text"] = "Must supply a username"
+
+    elif text[0] == 'soloChamps':
+        if len(text) > 1 and len(text[1]) > 0:
+            response = interact.soloChamps(text[1])
+        else:
+            response["response_type"] = "ephemeral"
+            response["text"] = "Must supply a username"
+
+    elif text[0] == 'flexChamps':
+        if len(text) > 1 and len(text[1]) > 0:
+            response = interact.flexChamps(text[1])
+        else:
+            response["response_type"] = "ephemeral"
+            response["text"] = "Must supply a username"
 
     else:
         response["response_type"] = "ephemeral"

@@ -28,6 +28,8 @@ def help():
                               ]
     return response
 
+# Adding and refreshing data
+
 def add(name):
     response = {}
     try:
@@ -81,51 +83,7 @@ def refresh(name):
 
     return response
 
-def stats(name):
-    response = {}
-
-    try:
-        player = Player.objects.get(name__iexact = name)
-    except:
-        response["text"] = "Player Not Found. Try add"
-        response["response_type"] = "ephemeral"
-        return response
-
-    rank = player.rank
-
-    response["response_type"] = "in_channel"
-    response["text"] = player.name + '\'s stats:'
-
-    if rank.solo_wins + rank.solo_losses == 0:
-        solo_percent = 0
-    else:
-        solo_percent = rank.solo_wins/(rank.solo_wins + rank.solo_losses)
-
-    if rank.flex_wins + rank.flex_losses == 0:
-        flex_percent = 0
-    else:
-        flex_percent = rank.flex_wins/(rank.flex_wins + rank.flex_losses)
-
-    if rank.tft_wins + rank.tft_losses == 0:
-        tft_percent = 0
-    else:
-        tft_percent = rank.tft_wins/(rank.tft_wins + rank.tft_losses)
-
-    response["attachments"] = [
-                                {"text":
-                                    "Solo Queue: " + rank.solo_tier + ' ' + rank.solo_rank + ' ' + str(rank.solo_lp) + 'lp\n'
-                                    + '\t' + str(rank.solo_wins) + ' wins ' + str(rank.solo_losses) + ' losses ' + str(round(solo_percent*100,1)) + '%'
-                                },
-                                {"text":
-                                    "Flex Queue: " + rank.flex_tier + ' ' + rank.flex_rank + ' ' + str(player.rank.flex_lp) + 'lp\n'
-                                    + '\t' + str(rank.flex_wins) + ' wins ' + str(rank.flex_losses) + ' losses ' + str(round(flex_percent*100,1)) + '%'
-                                },
-                                {"text":
-                                    "TFT: " + rank.tft_tier + ' ' + rank.tft_rank + ' ' + str(rank.tft_lp) + 'lp\n'
-                                    + '\t' + str(rank.tft_wins) + ' wins ' + str(rank.tft_losses) + ' losses ' + str(round(tft_percent*100,1)) + '%'
-                                },
-                              ]
-    return response
+# Group Stats
 
 def leaderboard():
     response = {}
@@ -299,5 +257,113 @@ def bestFlexChamps():
 
     response["response_type"] = "in_channel"
     response["text"] = 'Best Flex Queue Champs (min 5 games):'
+
+    return response
+
+# Single user stats
+
+def stats(name):
+    response = {}
+
+    try:
+        player = Player.objects.get(name__iexact = name)
+    except:
+        response["text"] = "Player Not Found. Try add"
+        response["response_type"] = "ephemeral"
+        return response
+
+    rank = player.rank
+
+    response["response_type"] = "in_channel"
+    response["text"] = player.name + '\'s stats:'
+
+    if rank.solo_wins + rank.solo_losses == 0:
+        solo_percent = 0
+    else:
+        solo_percent = rank.solo_wins/(rank.solo_wins + rank.solo_losses)
+
+    if rank.flex_wins + rank.flex_losses == 0:
+        flex_percent = 0
+    else:
+        flex_percent = rank.flex_wins/(rank.flex_wins + rank.flex_losses)
+
+    if rank.tft_wins + rank.tft_losses == 0:
+        tft_percent = 0
+    else:
+        tft_percent = rank.tft_wins/(rank.tft_wins + rank.tft_losses)
+
+    response["attachments"] = [
+                                {"text":
+                                    "Solo Queue: " + rank.solo_tier + ' ' + rank.solo_rank + ' ' + str(rank.solo_lp) + 'lp\n'
+                                    + '\t' + str(rank.solo_wins) + ' wins ' + str(rank.solo_losses) + ' losses ' + str(round(solo_percent*100,1)) + '%'
+                                },
+                                {"text":
+                                    "Flex Queue: " + rank.flex_tier + ' ' + rank.flex_rank + ' ' + str(player.rank.flex_lp) + 'lp\n'
+                                    + '\t' + str(rank.flex_wins) + ' wins ' + str(rank.flex_losses) + ' losses ' + str(round(flex_percent*100,1)) + '%'
+                                },
+                                {"text":
+                                    "TFT: " + rank.tft_tier + ' ' + rank.tft_rank + ' ' + str(rank.tft_lp) + 'lp\n'
+                                    + '\t' + str(rank.tft_wins) + ' wins ' + str(rank.tft_losses) + ' losses ' + str(round(tft_percent*100,1)) + '%'
+                                },
+                              ]
+    return response
+
+def soloChamps(name):
+    response = {}
+    response["attachments"] = []
+
+    try:
+        player = Player.objects.get(name__iexact = name)
+    except:
+        response["text"] = "Player Not Found. Try add"
+        response["response_type"] = "ephemeral"
+        return response
+
+    champs = player.solomatch_set.values_list('champion').distinct()
+
+    champ_text = ''
+
+    for champ in champs:
+        matches = player.solomatch_set.filter(champion=champ[0])
+        total = matches.count()
+        if total >= 5:
+            rate = (matches.filter(win=True).count())/total
+            champ_details = Champion.objects.get(id=champion)
+            champ_text = champ_text + '\n' + champ_details.name + ' played ' + str(games) + ' times winrate: ' + str(round(rate*100,1))
+
+    response["attachments"].append({"text": champ_text})
+
+    response["response_type"] = "in_channel"
+    response["text"] = '*Champion Win Rates*'
+
+    return response
+
+def flexChamps(name):
+    response = {}
+    response["attachments"] = []
+
+    try:
+        player = Player.objects.get(name__iexact = name)
+    except:
+        response["text"] = "Player Not Found. Try add"
+        response["response_type"] = "ephemeral"
+        return response
+
+    champs = player.flexmatch_set.values_list('champion').distinct()
+
+    champ_text = ''
+
+    for champ in champs:
+        matches = player.flexmatch_set.filter(champion=champ[0])
+        total = matches.count()
+        if total >= 5:
+            rate = (matches.filter(win=True).count())/total
+            champ_details = Champion.objects.get(id=champion)
+            champ_text = champ_text + '\n' + champ_details.name + ' played ' + str(games) + ' times winrate: ' + str(round(rate*100,1))
+
+    response["attachments"].append({"text": champ_text})
+
+    response["response_type"] = "in_channel"
+    response["text"] = '*Champion Win Rates*'
 
     return response
