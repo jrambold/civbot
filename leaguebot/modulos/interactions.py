@@ -328,7 +328,7 @@ def soloChamps(name):
         total = matches.count()
         if total >= 5:
             rate = (matches.filter(win=True).count())/total
-            champ_details = Champion.objects.get(id=champion)
+            champ_details = Champion.objects.get(id=champ[0])
             champ_text = champ_text + '\n' + champ_details.name + ' played ' + str(total) + ' times winrate: ' + str(round(rate*100,1))
 
     response["attachments"].append({"text": champ_text})
