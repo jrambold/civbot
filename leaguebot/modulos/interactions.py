@@ -114,11 +114,11 @@ def worstSoloChamps():
         for champ in champs:
             matches = player.solomatch_set.filter(champ[0])
             total = matches.count()
-            if total > 5:
-                rate = matches.filter(win=True).count()/total
-                if rate < result:
-                    result = rate
-                    champion = champ[0]
+            # if total >= 5:
+            #     rate = (matches.filter(win=True).count())/total
+            #     if rate < result:
+            #         result = rate
+            #         champion = champ[0]
         # response["attachments"].append({"text": player.name + ': ' + str(champion) + ' winrate: ' + str(round(result*100,1)) + '%'})
 
     response["response_type"] = "in_channel"
