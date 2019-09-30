@@ -97,7 +97,7 @@ def command(request):
             response["response_type"] = "ephemeral"
             response["text"] = "Must supply a username"
 
-    if text[0] == 'leaderboard':
+    elif text[0] == 'leaderboard':
         response = interact.leaderboard()
 
     elif text[0] == 'solo':

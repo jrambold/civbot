@@ -18,7 +18,6 @@ def help():
                     "\n• worstSoloChamps - everyone's lowest winrate soloqueue champs"+
                     "\n• worstFlexChamps - everyone's lowest winrate flexqueue champs")
     individual = ("Individual Stats"+
-                    "\n• stats [playername] - show players rankings"+
                     "\n• stats [playername] - show players rankings")
     response["attachments"] = [
                                 {"text":logistics},
