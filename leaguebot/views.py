@@ -13,7 +13,7 @@ def index(request):
     return HttpResponse("Hello World")
 
 def updateChamps(request):
-    r = requests.get(f"http://ddragon.leagueoflegends.com/cdn/6.24.1/data/en_US/champion.json").json()
+    r = requests.get(f"http://ddragon.leagueoflegends.com/cdn/9.19.1/data/en_US/champion.json").json()
     for key in r['data'].keys():
         champion = r['data'][key]
         tag1 = champion['tags'][0]
