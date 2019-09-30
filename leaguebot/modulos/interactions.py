@@ -111,7 +111,8 @@ def worstSoloChamps():
         champs = player.solomatch_set.values_list('champion').distinct()
         champion = 0
         result = 2
-        # for champ in champs:
+        for champ in champs:
+            a=1
         #     matches = player.solomatch_set.filter(champ)
         #     total = matches.count()
         #     if total > 5:
