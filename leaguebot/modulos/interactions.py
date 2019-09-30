@@ -13,7 +13,7 @@ def help():
                     "\n• add [playername] - add player and game history to bot"+
                     "\n• refreshAll - updates all player ranks and games"+
                     "\n• refresh [playername] - update players ranks and games")
-    individual = ("Group Stats"+
+    group = ("Group Stats"+
                     "\n• leaderboard - everyone ranked by win rate"+
                     "\n• worstSoloChamps - everyone's lowest winrate soloqueue champs"+
                     "\n• worstFlexChamps - everyone's lowest winrate flexqueue champs")
