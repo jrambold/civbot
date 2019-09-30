@@ -34,6 +34,21 @@ def addPlayer(name):
 
 	return None
 
+def updateAll():
+	updateAllRanks()
+	players = Player.objects.all()
+	for player in players:
+		populate_solo(player)
+		populate_flex(player)
+	return True
+
+def updateAllRanks():
+	players = Player.objects.all()
+	for player in players:
+		getRanks(player)
+		time.sleep(2)
+	return True
+
 def getRanks(player):
 	r = requests.get(f"https://na1.api.riotgames.com/lol/league/v4/entries/by-summoner/{player.riot_id}", headers=headers()).json()
 	rank = player.rank

@@ -8,18 +8,18 @@ def help():
     response = {}
     response["response_type"] = "ephemeral"
     response["text"] = "*Available Commands*"
-    logistics =
-                +"help - How do you think you got here?"
-                +"\n• add [playername] - add player and game history to bot"
-                +"\n• refreshAll - updates all player ranks and games"
-                +"\n• refresh [playername] - update players ranks and games"
-    individual = "Group Stats"
-                +"\n• leaderboard - everyone ranked by win rate"
-                +"\n• worstSoloChamps - everyone's lowest winrate soloqueue champs"
-                +"\n• worstFlexChamps - everyone's lowest winrate flexqueue champs"
-    individual = "Individual Stats"
-                +"\n• stats [playername] - show players rankings"
-                +"\n• stats [playername] - show players rankings"
+    logistics = ("Adding and Updating Info" +
+                    "\n• help - How do you think you got here?"+
+                    "\n• add [playername] - add player and game history to bot"+
+                    "\n• refreshAll - updates all player ranks and games"+
+                    "\n• refresh [playername] - update players ranks and games")
+    individual = ("Group Stats"+
+                    "\n• leaderboard - everyone ranked by win rate"+
+                    "\n• worstSoloChamps - everyone's lowest winrate soloqueue champs"+
+                    "\n• worstFlexChamps - everyone's lowest winrate flexqueue champs")
+    individual = ("Individual Stats"+
+                    "\n• stats [playername] - show players rankings"+
+                    "\n• stats [playername] - show players rankings")
     response["attachments"] = [
                                 {"text":logistics},
                                 {"text":group},
@@ -53,13 +53,9 @@ def add(name):
     return response
 
 def refreshAll():
-    players = Player.objects.all()
-    for player in players:
-        player = rapi.getRanks(player)
-        django_rq.enqueue(rapi.populate_solo, player)
-        django_rq.enqueue(rapi.populate_flex, player)
+    django_rq.enqueue(rapi.updateAll)
 
-    response["text"] = "Ranks Refreshed. Loading Games"
+    response["text"] = "Refreshing Ranks. Loading Games"
     response["response_type"] = "ephemeral"
 
     return response
