@@ -111,40 +111,41 @@ def worstSoloChamps():
         champs = player.solomatch_set.values_list('champion').distinct()
         champion = 0
         result = 2
-        for champ in champs:
-            matches = player.solomatch_set.filter(champ)
-            total = matches.count()
-            if total > 5:
-                rate = matches.filter(win=True).count()/total
-                if rate < result:
-                    result = rate
-                    champion = champ
-        response["attachments"].append({"text": player.name + ': ' + str(champion) + ' winrate: ' + str(round(result*100,1)) + '%'})
+        # for champ in champs:
+        #     matches = player.solomatch_set.filter(champ)
+        #     total = matches.count()
+        #     if total > 5:
+        #         rate = matches.filter(win=True).count()/total
+        #         if rate < result:
+        #             result = rate
+        #             champion = champ
+        # response["attachments"].append({"text": player.name + ': ' + str(champion) + ' winrate: ' + str(round(result*100,1)) + '%'})
 
     response["response_type"] = "in_channel"
+    response["response_type"] = "ephemeral"
     response["text"] = 'Worst Champs (min 5):'
 
     return response
 
 def worstFlexChamps():
-    response = {}
-    response["attachments"] = []
-
-    players = Player.objects.all()
-
-    for player in players:
-        champs = player.flexmatch_set.values_list('champion').distinct()
-        champion = 0
-        result = 2
-        for champ in champs:
-            matches = player.flexmatch_set.filter(champ)
-            total = matches.count()
-            if total > 5:
-                rate = matches.filter(win=True).count()/total
-                if rate < result:
-                    result = rate
-                    champion = champ
-        response["attachments"].append({"text": player.name + ': ' + str(champion) + ' winrate: ' + str(round(result*100,1)) + '%'})
+    # response = {}
+    # response["attachments"] = []
+    #
+    # players = Player.objects.all()
+    #
+    # for player in players:
+    #     champs = player.flexmatch_set.values_list('champion').distinct()
+    #     champion = 0
+    #     result = 2
+    #     for champ in champs:
+    #         matches = player.flexmatch_set.filter(champ)
+    #         total = matches.count()
+    #         if total > 5:
+    #             rate = matches.filter(win=True).count()/total
+    #             if rate < result:
+    #                 result = rate
+    #                 champion = champ
+    #     response["attachments"].append({"text": player.name + ': ' + str(champion) + ' winrate: ' + str(round(result*100,1)) + '%'})
 
     response["response_type"] = "in_channel"
     response["text"] = 'Worst Champs (min 5):'
