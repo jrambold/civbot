@@ -14,7 +14,7 @@ def index(request):
 
 def updateChamps(request):
     r = requests.get(f"http://ddragon.leagueoflegends.com/cdn/6.24.1/data/en_US/champion.json").json()
-    for key in r['data'].keys()
+    for key in r['data'].keys():
         champion = r['data'][key]
         tag1 = champion['tags'][0]
         if len(champion['tags']) > 1:
