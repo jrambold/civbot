@@ -2,7 +2,7 @@ from leaguebot.models import Player, Rank, SoloMatch, FlexMatch, Champion
 from django.utils import timezone
 import django_rq
 import leaguebot.services.riotapi as rapi
-from django.db.models import F
+from django.db.models import F, ExpressionWrapper
 
 def help():
     response = {}
