@@ -1,4 +1,4 @@
-from leaguebot.models import Player, Rank, SoloMatch, FlexMatch
+from leaguebot.models import Player, Rank, SoloMatch, FlexMatch, Champion
 from django.utils import timezone
 import django_rq
 import leaguebot.services.riotapi as rapi
@@ -121,7 +121,11 @@ def worstSoloChamps():
                     result = rate
                     champion = champ[0]
                     games = total
-        response["attachments"].append({"text": player.name + ': ' + str(champion) + ' played ' + str(games) + ' times winrate: ' + str(round(result*100,1)) + '%'})
+        if champion == 0:
+            response["attachments"].append({"text": player.name + ': No champion played 5 times'})
+        else:
+            champ_details = Champion.objects.get(key=champion)
+            response["attachments"].append({"text": player.name + ': ' + champ_details.name + ' played ' + str(games) + ' times winrate: ' + str(round(result*100,1)) + '%\nA True ' + champ_details.title})
 
     response["response_type"] = "in_channel"
     response["text"] = 'Worst Champs (min 5):'
@@ -148,7 +152,11 @@ def worstFlexChamps():
                     result = rate
                     champion = champ[0]
                     games = total
-        response["attachments"].append({"text": player.name + ': ' + str(champion) + ' played ' + str(games) + ' times winrate: ' + str(round(result*100,1)) + '%'})
+        if champion == 0:
+            response["attachments"].append({"text": player.name + ': No champion played 5 times'})
+        else:
+            champ_details = Champion.objects.get(key=champion)
+            response["attachments"].append({"text": player.name + ': ' + champ_details.name + ' played ' + str(games) + ' times winrate: ' + str(round(result*100,1)) + '%\nA True ' + champ_details.title})
 
     response["response_type"] = "in_channel"
     response["text"] = 'Worst Champs (min 5):'
