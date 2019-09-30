@@ -109,18 +109,17 @@ def worstSoloChamps():
 
     for player in players:
         champs = player.solomatch_set.values_list('champion').distinct()
-        champion = ''
+        champion = 0
         result = 2
         for champ in champs:
-            champion = champion + str(champ[0])
-        #     matches = player.solomatch_set.filter(champ)
-        #     total = matches.count()
-        #     if total > 5:
-        #         rate = matches.filter(win=True).count()/total
-        #         if rate < result:
-        #             result = rate
-        #             champion = champ
-        # response["attachments"].append({"text": player.name + ': ' + str(champion) + ' winrate: ' + str(round(result*100,1)) + '%'})
+            matches = player.solomatch_set.filter(champ[0])
+            total = matches.count()
+            if total > 5:
+                rate = matches.filter(win=True).count()/total
+                if rate < result:
+                    result = rate
+                    champion = champ[0]
+        response["attachments"].append({"text": player.name + ': ' + str(champion) + ' winrate: ' + str(round(result*100,1)) + '%'})
 
     response["response_type"] = "in_channel"
     response["response_type"] = "ephemeral"
