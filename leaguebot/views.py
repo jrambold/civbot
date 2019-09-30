@@ -7,12 +7,52 @@ import json
 import requests
 import leaguebot.modulos.notifications as notes
 import leaguebot.modulos.interactions as interact
+from leaguebot.models import Champion
 
 def index(request):
     return HttpResponse("Hello World")
 
 def updateChamps(request):
     r = requests.get(f"http://ddragon.leagueoflegends.com/cdn/6.24.1/data/en_US/champion.json").json()
+    for key in r['data'].keys()
+        champion = r['data'][key]
+        tag1 = champion['tags'][0]
+        if len(champion['tags']) > 1:
+            tag2 = champion['tags'][1]
+        else:
+            tag2 = None
+        stats = champion['stats']
+        champ = Champion(
+                        id = champion['key'],
+                    	name = champion['name'],
+                    	version = champion['version'],
+                    	title = champion['title'],
+                    	blurb =  champion['blurb'],
+                    	tag1 = tag1,
+                    	tag2 = tag2,
+                    	partype = champion['partype'],
+                    	hp = stats['hp'],
+                    	hpperlevel = stats['hpperlevel'],
+                    	mp = stats['mp'],
+                    	mpperlevel = stats['mpperlevel'],
+                    	movespeed = stats['movespeed'],
+                    	armor = stats['armor'],
+                    	armorperlevel = stats['armorperlevel'],
+                    	spellblock = stats['spellblock'],
+                    	spellblockperlevel = stats['spellblockperlevel'],
+                    	attackrange = stats['attackrange'],
+                    	hpregen = stats['hpregen'],
+                    	hpregenperlevel = stats['hpregenperlevel'],
+                    	mpregen = stats['mpregen'],
+                    	mpregenperlevel = stats['mpregenperlevel'],
+                    	crit = stats['crit'],
+                    	critperlevel = stats['critperlevel'],
+                    	attackdamage = stats['attackdamage'],
+                    	attackdamageperlevel = stats['attackdamageperlevel'],
+                    	attackspeedoffset = stats['attackspeedoffset'],
+                    	attackspeedperlevel = stats['attackspeedperlevel'],
+                        )
+        champ.save()
     return JsonResponse(r, safe=False)
 
 #slack slash command url
