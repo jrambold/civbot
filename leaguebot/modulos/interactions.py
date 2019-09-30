@@ -131,17 +131,17 @@ def leaderboard():
     response["text"] = 'Leaderboard'
     response["attachments"] = []
 
-    # players = Rank.objects.filter(Q(solo_wins>0)|Q(solo_losses>0)).annotate(percent= ExpressionWrapper(100.0 * F('solo_wins') / (F('solo_wins') + F('solo_losses')), output_field=FloatField()) ).order_by('-percent')
-    # solo = '*Solo Queue Heroes*'
-    # for rank in players:
-    #     solo = solo + '\n\t' + rank.player.name + ' ' +  str(round(rank.percent,1)) + '% ' + str(rank.solo_wins) + ' wins ' + str(rank.solo_losses) + ' losses (' + rank.solo_tier + ' ' + rank.solo_rank + ')'
+    players = Rank.objects.filter(Q(solo_wins__gt=0)|Q(solo_losses__gt=0)).annotate(percent= ExpressionWrapper(100.0 * F('solo_wins') / (F('solo_wins') + F('solo_losses')), output_field=FloatField()) ).order_by('-percent')
+    solo = '*Solo Queue Heroes*'
+    for rank in players:
+        solo = solo + '\n\t' + rank.player.name + ' ' +  str(round(rank.percent,1)) + '% ' + str(rank.solo_wins) + ' wins ' + str(rank.solo_losses) + ' losses (' + rank.solo_tier + ' ' + rank.solo_rank + ')'
 
-    players = Rank.objects.filter(Q(flex_wins>0)|Q(flex_losses>0)).annotate(percent= ExpressionWrapper(100.0 * F('flex_wins') / (F('flex_wins') + F('flex_losses')), output_field=FloatField()) ).order_by('-percent')
+    players = Rank.objects.filter(Q(flex_wins__gt=0)|Q(flex_losses__gt=0)).annotate(percent= ExpressionWrapper(100.0 * F('flex_wins') / (F('flex_wins') + F('flex_losses')), output_field=FloatField()) ).order_by('-percent')
     flex = '*Flex Teammates*'
     for rank in players:
         flex = flex + '\n\t' + rank.player.name + ' ' + str(round(rank.percent,1)) + '% ' + str(rank.flex_wins) + ' wins ' + str(rank.flex_losses) + ' losses (' + rank.flex_tier + ' ' + rank.flex_rank + ')'
 
-    players = Rank.objects.filter(Q(tft_wins>0)|Q(tft_losses>0)).annotate(percent= ExpressionWrapper(100.0 * F('tft_wins') / (F('tft_wins') + F('tft_losses')), output_field=FloatField()) ).order_by('-percent')
+    players = Rank.objects.filter(Q(tft_wins__gt=0)|Q(tft_losses__gt=0)).annotate(percent= ExpressionWrapper(100.0 * F('tft_wins') / (F('tft_wins') + F('tft_losses')), output_field=FloatField()) ).order_by('-percent')
     tft = '*TFT Strategists*'
     for rank in players:
         tft = tft + '\n\t' + rank.player.name + ' ' +  str(round(rank.percent,1)) + '% '+ str(rank.tft_wins) + ' wins ' + str(rank.tft_losses) + ' losses (' + rank.tft_tier + ' ' + rank.tft_rank + ')'
