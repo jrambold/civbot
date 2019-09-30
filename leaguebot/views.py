@@ -49,7 +49,7 @@ def updateChamps(request):
                     	critperlevel = stats['critperlevel'],
                     	attackdamage = stats['attackdamage'],
                     	attackdamageperlevel = stats['attackdamageperlevel'],
-                    	attackspeedoffset = stats['attackspeedoffset'],
+                    	attackspeed = stats['attackspeed'],
                     	attackspeedperlevel = stats['attackspeedperlevel'],
                         )
         champ.save()
