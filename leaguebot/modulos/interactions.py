@@ -89,6 +89,21 @@ def stats(name):
                               ]
     return response
 
+def leaderboard():
+    response = {}
+    response["response_type"] = "in_channel"
+    response["text"] = 'Leaderboard'
+    response["attachments"] = []
+
+    players = Rank.objects.annotate(percent= 100 * F('solo_wins') / (F('solo_wins') + F('solo_losses')) ).order_by('-percent')
+    solo = '*Solo Queue Heroes*'
+    for rank in players:
+        solo = solo + '\n' + rank.player.name + ' ' + str(rank.solo_wins) + ' wins ' + str(rank.solo_losses) + ' losses ' + str(round(rank.percent,1)) + '% (' + rank.solo_tier + ' ' + rank.solo_rank + ')'
+
+    response["attachments"].append({"text": solo})
+
+    return response
+
 def soloRanks():
     response = {}
     return response
