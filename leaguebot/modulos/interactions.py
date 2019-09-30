@@ -52,6 +52,7 @@ def add(name):
     return response
 
 def refreshAll():
+    response = {}
     django_rq.enqueue(rapi.updateAll)
 
     response["text"] = "Refreshing Ranks. Loading Games"
