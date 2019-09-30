@@ -326,10 +326,10 @@ def soloChamps(name):
     for champ in champs:
         matches = player.solomatch_set.filter(champion=champ[0])
         total = matches.count()
-        # if total >= 5:
-        #     rate = (matches.filter(win=True).count())/total
-        #     champ_details = Champion.objects.get(id=champion)
-        #     champ_text = champ_text + '\n' + champ_details.name + ' played ' + str(games) + ' times winrate: ' + str(round(rate*100,1))
+        if total >= 5:
+            rate = (matches.filter(win=True).count())/total
+            champ_details = Champion.objects.get(id=champion)
+            champ_text = champ_text + '\n' + champ_details.name + ' played ' + str(total) + ' times winrate: ' + str(round(rate*100,1))
 
     response["attachments"].append({"text": champ_text})
 
@@ -342,26 +342,26 @@ def flexChamps(name):
     response = {}
     response["attachments"] = []
 
-    # try:
-    #     player = Player.objects.get(name__iexact = name)
-    # except:
-    #     response["text"] = "Player Not Found. Try add"
-    #     response["response_type"] = "ephemeral"
-    #     return response
-    #
-    # champs = player.flexmatch_set.values_list('champion').distinct()
-    #
-    # champ_text = ''
-    #
-    # for champ in champs:
-    #     matches = player.flexmatch_set.filter(champion=champ[0])
-    #     total = matches.count()
-    #     if total >= 5:
-    #         rate = (matches.filter(win=True).count())/total
-    #         champ_details = Champion.objects.get(id=champion)
-    #         champ_text = champ_text + '\n' + champ_details.name + ' played ' + str(games) + ' times winrate: ' + str(round(rate*100,1))
-    #
-    # response["attachments"].append({"text": champ_text})
+    try:
+        player = Player.objects.get(name__iexact = name)
+    except:
+        response["text"] = "Player Not Found. Try add"
+        response["response_type"] = "ephemeral"
+        return response
+
+    champs = player.flexmatch_set.values_list('champion').distinct()
+
+    champ_text = ''
+
+    for champ in champs:
+        matches = player.flexmatch_set.filter(champion=champ[0])
+        total = matches.count()
+        if total >= 5:
+            rate = (matches.filter(win=True).count())/total
+            champ_details = Champion.objects.get(id=champion)
+            champ_text = champ_text + '\n' + champ_details.name + ' played ' + str(total) + ' times winrate: ' + str(round(rate*100,1))
+
+    response["attachments"].append({"text": champ_text})
 
     response["response_type"] = "in_channel"
     response["text"] = '*Champion Win Rates*'
