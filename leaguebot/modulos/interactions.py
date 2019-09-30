@@ -2,6 +2,7 @@ from leaguebot.models import Player, Rank, SoloMatch, FlexMatch, Champion
 from django.utils import timezone
 import django_rq
 import leaguebot.services.riotapi as rapi
+from django.db.models import F
 
 def help():
     response = {}
@@ -95,10 +96,10 @@ def leaderboard():
     response["text"] = 'Leaderboard'
     response["attachments"] = []
 
-    players = Rank.objects.all().annotate(percent= (100 * F('solo_wins') / (F('solo_wins') + F('solo_losses'))) ).order_by('-percent')
+    players = Rank.objects.annotate(percent= 100 * F('solo_wins') / (F('solo_wins') + F('solo_losses')) ).order_by('-percent')
     solo = 'Solo Queue Heroes'
     for rank in players:
-        solo = solo + '\n' + str(rank.solo_wins) + ' wins ' + str(rank.solo_losses) + ' losses ' + str(round(rank.percent,1)) + '% (' + rank.solo_tier + ' ' + rank.solo_rank + ')'
+        solo = solo + '\n' + rank.player.name + ' ' + str(rank.solo_wins) + ' wins ' + str(rank.solo_losses) + ' losses ' + str(round(rank.percent,1)) + '% (' + rank.solo_tier + ' ' + rank.solo_rank + ')'
 
     response["attachments"].append({"text": solo})
 
