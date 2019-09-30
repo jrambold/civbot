@@ -4,11 +4,16 @@ from django.views.decorators.csrf import csrf_exempt
 from urllib.parse import parse_qs
 from django.conf import settings
 import json
+import requests
 import leaguebot.modulos.notifications as notes
 import leaguebot.modulos.interactions as interact
 
 def index(request):
     return HttpResponse("Hello World")
+
+def updateChamps(request):
+    r = requests.get(f"http://ddragon.leagueoflegends.com/cdn/6.24.1/data/en_US/champion.json").json()
+    return JsonResponse(r, safe=False)
 
 #slack slash command url
 @csrf_exempt

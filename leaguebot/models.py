@@ -72,3 +72,36 @@ class FlexMatch(models.Model):
 
 	def __str__(self):
 		return f"{self.player} {self.gameId}"
+
+class Champion(models.Model):
+	id = models.IntegerField(primary_key=True)
+	name = models.CharField(max_length=200)
+	version = models.CharField(max_length=200)
+	title = models.CharField(max_length=200)
+	blurb = models.TextField()
+	tag1 = models.CharField(max_length=200, null=True, blank=True, default=None)
+	tag2 = models.CharField(max_length=200, null=True, blank=True, default=None)
+	partype = models.CharField(max_length=200, null=True, blank=True, default=None)
+	hp = models.IntegerField()
+	hpperlevel = models.IntegerField()
+	mp = models.IntegerField()
+	mpperlevel = models.IntegerField()
+	movespeed = models.IntegerField()
+	armor = models.IntegerField()
+	armorperlevel = models.IntegerField()
+	spellblock = models.IntegerField()
+	spellblockperlevel = models.IntegerField()
+	attackrange = models.IntegerField()
+	hpregen = models.IntegerField()
+	hpregenperlevel = models.IntegerField()
+	mpregen = models.IntegerField()
+	mpregenperlevel = models.IntegerField()
+	crit = models.IntegerField()
+	critperlevel = models.IntegerField()
+	attackdamage = models.IntegerField()
+	attackdamageperlevel = models.IntegerField()
+	attackspeedoffset = models.IntegerField()
+	attackspeedperlevel = models.IntegerField()
+
+	def __str__(self):
+		return self.name
