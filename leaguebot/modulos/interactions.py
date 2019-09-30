@@ -124,7 +124,7 @@ def worstSoloChamps():
         if champion == 0:
             response["attachments"].append({"text": player.name + ': No champion played 5 times'})
         else:
-            champ_details = Champion.objects.get(key=champion)
+            champ_details = Champion.objects.get(id=champion)
             response["attachments"].append({"text": player.name + ': ' + champ_details.name + ' played ' + str(games) + ' times winrate: ' + str(round(result*100,1)) + '%\nA True ' + champ_details.title})
 
     response["response_type"] = "in_channel"
@@ -155,7 +155,7 @@ def worstFlexChamps():
         if champion == 0:
             response["attachments"].append({"text": player.name + ': No champion played 5 times'})
         else:
-            champ_details = Champion.objects.get(key=champion)
+            champ_details = Champion.objects.get(id=champion)
             response["attachments"].append({"text": player.name + ': ' + champ_details.name + ' played ' + str(games) + ' times winrate: ' + str(round(result*100,1)) + '%\nA True ' + champ_details.title})
 
     response["response_type"] = "in_channel"
