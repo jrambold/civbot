@@ -125,6 +125,7 @@ def worstSoloChamps():
             response["attachments"].append({"text": player.name + ': No champion played 5 times'})
         else:
             champ_details = Champion.objects.get(id=champion)
+            title = champ_details.title
             if title.startswith('the '):
                 title = title.split('the ',1)[1]
             response["attachments"].append({"text": player.name + ': ' + champ_details.name + ' played ' + str(games) + ' times winrate: ' + str(round(result*100,1)) + '%\nA True ' + title})
