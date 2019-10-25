@@ -16,12 +16,13 @@ def index(request):
 def command(request):
     try:
         slackCommand = parse_qs(request.body.decode('utf-8', "ignore"))
+        notes.sendSlack(slackCommand['token'][0],'#bot-testing')
         text = slackCommand['text'][0].split(' ', 1)
         text[0] = text[0].lower()
     except:
         return HttpResponse('Invalid Request')
 
-    if slackCommand['token'][0] != settings.SLACK_TOKEN_LEAGUE:
+    if slackCommand['token'][0] != settings.SLACK_TOKEN_FRIENDBETS:
         return HttpResponse('Invalid Request')
 
     response = {}

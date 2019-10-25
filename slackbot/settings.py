@@ -27,6 +27,8 @@ SLACK_LEAGUEBOT = os.environ.get('SLACK_LEAGUEBOT')
 SLACK_TOKEN = os.environ.get('SLACK_TOKEN')
 SLACK_TOKEN_LEAGUE = os.environ.get('SLACK_TOKEN_LEAGUE')
 RIOT_KEY = os.environ.get('RIOT_KEY')
+SLACK_FRIENDBETS = os.environ.get('SLACK_FRIENDBETS')
+SLACK_TOKEN_FRIENDBETS = os.environ.get('SLACK_TOKEN_FRIENDBETS')
 
 # easy export for command line testing
 # export "SECRET_KEY"="hello"
