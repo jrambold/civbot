@@ -16,7 +16,6 @@ def index(request):
 def command(request):
     try:
         slackCommand = parse_qs(request.body.decode('utf-8', "ignore"))
-        notes.sendSlack(slackCommand['token'][0],'#bot-testing')
         text = slackCommand['text'][0].split(' ', 1)
         text[0] = text[0].lower()
     except:
