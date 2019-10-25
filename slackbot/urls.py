@@ -22,5 +22,6 @@ urlpatterns = [
     path('django-rq/', include('django_rq.urls')),
     path('civbot/', include('civbot.urls')),
     path('leaguebot/', include('leaguebot.urls')),
+    path('friendbets/', include('friendbets.urls')),
     path('', root, name='root'),
 ]

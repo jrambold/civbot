@@ -17,12 +17,12 @@ def root(request):
 def index(request):
     try:
         info = json.loads(request.body)
-        notes.sendSlack(str(info), '#bot-testing')
         player = info['value2']
         game = info['value1']
         turn = int(info['value3'])
     except:
         notes.sendSlack('invalid webhook received', '#bot-testing')
+        notes.sendSlack(request.body, '#bot-testing')
         return HttpResponse("Invalid Request")
 
     try:
